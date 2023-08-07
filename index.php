@@ -1,6 +1,12 @@
 <?php
+declare(strict_types=1);
 require_once '/home/nicogruenewald/Documents/football-api/partials/header.php';
 require_once '/home/nicogruenewald/Documents/football-api/partials/footer.php';
+
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 
 $uri = 'http://api.football-data.org/v4/competitions/';
 $reqPrefs['http']['method'] = 'GET';
@@ -10,4 +16,5 @@ $response = file_get_contents($uri, false, $stream_context);
 $result = json_decode($response);
 
 require '/home/nicogruenewald/Documents/football-api/routing.php';
-?>
+
+
