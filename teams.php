@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 $league_id = $_GET['name'];
 
@@ -8,42 +12,9 @@ $reqPrefs['http']['header'] = 'X-Auth-Token: a6c8d6df34f64da0a3d3bbe5beed6ea7';
 $stream_context = stream_context_create($reqPrefs);
 $response = file_get_contents($uri, false, $stream_context);
 $result = json_decode($response, true);
-?>
 
-<body>
-<table>
+$loader = new FilesystemLoader(__DIR__ . '/template');
+$twig = new Environment($loader);
 
-    <tr>
-        <th>Position</th>
-        <th>Team</th>
-        <th>Played Games</th>
-        <th>Won</th>
-        <th>Draw</th>
-        <th>Lost</th>
-        <th>Points</th>
-        <th>Goals For</th>
-        <th>Goals Against</th>
-        <th>Goal Difference</th>
-    </tr>
-    <tr>
-        <td>
-            <?php
-            foreach ($result['standings'][0]['table'] as $standing) {
-                echo "<tr>";
-                echo "<td>" . $standing['position'] . "</td>";
-                echo "<td><img src='" . $standing['team']['crest'] . "' height='22' width='22'> <a href='/index.php?page=team&id=" . $standing["team"]["id"] . "'>" . $standing['team']['name'] . '</a></td>';
-                echo "<td>" . $standing['playedGames'] . "</td>";
-                echo "<td>" . $standing['won'] . "</td>";
-                echo "<td>" . $standing['draw'] . "</td>";
-                echo "<td>" . $standing['lost'] . "</td>";
-                echo "<td>" . $standing['points'] . "</td>";
-                echo "<td>" . $standing['goalsFor'] . "</td>";
-                echo "<td>" . $standing['goalsAgainst'] . "</td>";
-                echo "<td>" . $standing['goalDifference'] . "</td>";
-                echo "</tr>";
-            }
-            ?>
-        </td>
-    </tr>
-</table>
-</body>
+echo $twig->render('teams.twig', ['standings' => $result['standings']]);
+

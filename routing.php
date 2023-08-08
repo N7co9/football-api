@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 $request = $_SERVER['REQUEST_URI'];
 $query = $_GET;
 

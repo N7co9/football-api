@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Football Competitions</title>
+</head>
+<body>
+<ul>
+    {% for competition in competitions %}
+        <li><a href="?page=competition&name={{ competition.code }}">{{ competition.name }}</a></li>
+    {% endfor %}
+</ul>
+</body>
+</html>

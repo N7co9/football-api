@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teams</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>Position</th>
+        <th>Team</th>
+        <th>Played Games</th>
+        <th>Won</th>
+        <th>Draw</th>
+        <th>Lost</th>
+        <th>Points</th>
+        <th>Goals For</th>
+        <th>Goals Against</th>
+        <th>Goal Difference</th>
+    </tr>
+    {% for standing in standings.0.table %}
+        <tr>
+            <td> {{ standing.position }} </td>
+            <td><img src="{{ standing.team.crest }}" height="22" width="22"> <a
+                        href="/index.php?page=team&id={{ standing.team.id }}"> {{ standing.team.name }} </a></td>
+            <td> {{ standing.playedGames }} </td>
+            <td> {{ standing.won }} </td>
+            <td> {{ standing.draw }} </td>
+            <td> {{ standing.lost }} </td>
+            <td> {{ standing.points }} </td>
+            <td> {{ standing.goalsFor }} </td>
+            <td> {{ standing.goalsAgainst }} </td>
+            <td> {{ standing.goalDifference }} </td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

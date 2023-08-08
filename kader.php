@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 $team_id = $_GET['id'];
 
@@ -9,17 +13,14 @@ $stream_context = stream_context_create($reqPrefs);
 $response = file_get_contents($uri, false, $stream_context);
 $result = json_decode($response, true);
 
-
-echo "<h1>Kader</h1>";
+$loader = new FilesystemLoader(__DIR__ . '/template');
+$twig = new Environment($loader);
 
 $count = -1;
 foreach ($result['squad'] as $item) {
     $count++;
     $new_list [] = $item;
-    echo "<ul>" . "<li>" . "<a" . " href='/index.php?page=player&id=" . $new_list[$count]['id'] . "'>" . $new_list[$count]['name'] . "</a>" . "</li>" . "</ul>";
 }
 
-
-
-// var_dump($new_list[0]['id']);
+echo $twig->render('kader.twig', ['result' => $result['squad'], 'count' => $count]);
 

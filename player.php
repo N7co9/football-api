@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 $player_id = $_GET['id'];
 
@@ -9,11 +13,8 @@ $stream_context = stream_context_create($reqPrefs);
 $response = file_get_contents($uri, false, $stream_context);
 $result = json_decode($response, true);
 
+$loader = new FilesystemLoader(__DIR__ . '/template');
+$twig = new Environment($loader);
 
-echo "<h1>" . $result['name'] . "</h1>";
+echo $twig->render('player.twig', ['result' => $result]);
 
-echo "<ul>" . "<li>" . "Position: " . $result['position'] . "</li>" .
-    "<li>" . "Geburtsdatum: " . $result['dateOfBirth'] . "</li>" .
-    "<li>" . "Nationalität: " . $result['nationality'] . "</li>" .
-    "<li>" . "Trikotnummer: " . $result['shirtNumber'] . "</li>" .
-    "</ul>";
