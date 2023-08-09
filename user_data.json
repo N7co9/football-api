@@ -6,32 +6,7 @@
     },
     {
         "name": "PeterPan",
-        "email": "neuemail@mail.com",
-        "password": "$2y$10$ESmhwRuEkHOoa40dbsmku.q\/ZVsw6mFvCFS.0hEV3Eb5wHlJ9kiF."
-    },
-    {
-        "name": "PeterPan",
-        "email": "neuem7ail@mail.com",
-        "password": "$2y$10$kAztp0owQA54m2KIDbhSCurGMzH0V22WF1E6bU.dsp4EWAAvHzx.m"
-    },
-    {
-        "name": "MeinName",
-        "email": "ma55il@peter.com",
-        "password": "$2y$10$Xg3BKwsb.NNkIm8CQo1e1egJc6AALEVQuCEl0BPdT2IpYIYqjHqs."
-    },
-    {
-        "name": "MeinName",
-        "email": "MeinNffame@mail.com",
-        "password": "$2y$10$YJGKl9OPTnsepLcYeJFuWuRDfQFSvsxFjbht2rtrBefi2fG73RZNm"
-    },
-    {
-        "name": "Nicotest",
-        "email": "neuemai55@mail.com",
-        "password": "$2y$10$w1eRJ1VotSh9cA5vDQ2a2eXmdTT5\/JuMrggjU8qt1srA5zwVyr\/nG"
-    },
-    {
-        "name": "PeterPan",
-        "email": "neu444email@mail.com",
-        "password": "$2y$10$YjR7tqEa5UFW3TgQz03nZ.Td8Ehhcd3sPAadCfqfisaqH1TBW0rtS"
+        "email": "peterpan@mail.com",
+        "password": "$2y$10$\/nRzXBKDp3ZNy0xpp8ooA.g7sUf50hFFRxP\/IxMO04aaIwjT6FYQu"
     }
 ]

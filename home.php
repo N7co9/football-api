@@ -15,4 +15,4 @@ $result = json_decode($response);
 $loader = new FilesystemLoader(__DIR__ . '/template');
 $twig = new Environment($loader);
 
-echo $twig->render('home.twig', ['competitions' => $result->competitions, 'error' => $err, 'eName' => $errName, 'eMail' => $errMail, 'ePass' => $errPass, 'sessionName' => $sessionName, 'sessionMail' => $sessionMail]);
+echo $twig->render('home.twig', ['competitions' => $result->competitions]);

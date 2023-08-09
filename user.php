@@ -1,28 +1,21 @@
 <?php
 declare(strict_types=1);
+
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
+
 session_start();
 
 //   -----> validate inputs here <-------
 
+$valueName = "";
+$valueMail = "";
 
-$sessionMail = "";
-$sessionName = "";
-$err = "";
-$errPass = "";
-$errMail = "";
-$errName = "";
-
-$_SESSION['name'] = $_POST['name'];
-$_SESSION['mail'] = $_POST['mail'];
-
-if(isset($_SESSION['name'])){
-    $sessionName = $_SESSION['name'];
+$err = '';
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $valueName = $_POST['name'];
+    $valueMail = $_POST['mail'];
 }
-
-if(isset($_SESSION['mail'])){
-    $sessionMail = $_SESSION['mail'];
-}
-
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -86,3 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $err = 'Hoops, your Registration is not complete!';
     }
 }
+
+$loader = new FilesystemLoader(__DIR__ . '/template');
+$twig = new Environment($loader);
+
+echo $twig->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail]);
+
+
+

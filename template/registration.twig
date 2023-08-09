@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+</head>
+
+<body>
+
+<h2>Register here:</h2>
+
+<form action="" method="POST">
+    <label for="name">Enter your full Name</label><br>
+    <input type="text" value= "{{ vName }}" id="name" name="name"><br>
+    <label for="mail">Enter your E-Mail</label><br>
+    <input type="text" value="{{ vMail }}" id="mail" name="mail"><br>
+    <label for="password">Enter your Password</label><br>
+    <input type="password" id="password" name="password"><br>
+    <input type="submit">
+</form>
+
+{{ eName }}
+<br>
+{{ eMail }}
+<br>
+{{ ePass }}
+<br>
+{{ error }}
+
+<p>Need to go back to the Homepage? Click <a href="/index.php">here</a>!</p>
+
+</body>

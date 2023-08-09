@@ -12,4 +12,6 @@ if ($request === '/index.php') {
     require __DIR__ . '/kader.php';
 } else if ($query['page'] == 'player') {
     require __DIR__ . '/player.php';
+} else if ($query['page'] === 'registration'){
+    require __DIR__ . '/user.php';
 }
