@@ -14,4 +14,6 @@ if ($request === '/index.php') {
     require __DIR__ . '/player.php';
 } else if ($query['page'] === 'registration'){
     require __DIR__ . '/user.php';
+} else if ($query['page'] === 'login') {
+    require __DIR__ . '/login.php';
 }
