@@ -5,11 +5,11 @@ $query = $_GET;
 
 
 if ($request === '/index.php') {
-    require '/home/nicogruenewald/Documents/football-api/home.php';
+    require __DIR__ . '/home.php';
 } else if ($query['page'] == 'competition') {
-    require '/home/nicogruenewald/Documents/football-api/teams.php';
+    require __DIR__ . '/teams.php';
 } else if ($query['page'] == 'team') {
-    require '/home/nicogruenewald/Documents/football-api/kader.php';
+    require __DIR__ . '/kader.php';
 } else if ($query['page'] == 'player') {
-    require '/home/nicogruenewald/Documents/football-api/player.php';
+    require __DIR__ . '/player.php';
 }
