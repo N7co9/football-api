@@ -8,5 +8,25 @@
         "name": "PeterPan",
         "email": "peterpan@mail.com",
         "password": "$2y$10$\/nRzXBKDp3ZNy0xpp8ooA.g7sUf50hFFRxP\/IxMO04aaIwjT6FYQu"
+    },
+    {
+        "name": "Validation",
+        "email": "validation@validation.com",
+        "password": "$2y$10$tsiHgW8K4\/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy"
+    },
+    {
+        "name": "Thomas Gottschalk",
+        "email": "thomas@gottschalk.de",
+        "password": "$2y$10$DnowSs5NjXHKWnJuoABWhOZQ4ss5FBJr7XtjCQbmtcQKhoH5NZ\/sS"
+    },
+    {
+        "name": "neun",
+        "email": "neu@neu.de",
+        "password": "$2y$10$Z\/4PB9YHMNXyAzrObJeaIuniBYi8U2xwaLbaGi5My2WXrIrv2du6."
+    },
+    {
+        "name": "lolol",
+        "email": "133@1233.de",
+        "password": "$2y$10$.cLsu0Q9Xc6QC7FxyVtJr.5TkRE\/H.SlzWBg1fDwBqVN16gTBOMbW"
     }
 ]

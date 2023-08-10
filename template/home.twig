@@ -4,14 +4,27 @@
     <title>Football Competitions</title>
 </head>
 <body>
+
+{% if user %}
+<p>Welcome back, {{ user }}</p>
+{% endif %}
+
 <ul>
     {% for competition in competitions %}
         <li><a href="?page=competition&name={{ competition.code }}">{{ competition.name }}</a></li>
     {% endfor %}
 </ul>
-<p>Need to login? Go <a href=/index.php?page=login>here</a>!</p>
 
+
+{% if not user %}
+<p>Need to log in? Go <a href=/index.php?page=login>here</a>!</p>
 <p>No Account? Register <a href=/index.php?page=registration>here</a>!</p>
+{% endif %}
+
+
+{% if user %}
+<p>Log out? Click <a href="/logout.php">here</a>.</p>
+{% endif %}
 
 </body>
 </html>

@@ -4,15 +4,13 @@ declare(strict_types=1);
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
-session_start();
-
 //   -----> validate inputs here <-------
 
 $valueName = "";
 $valueMail = "";
 
 $err = '';
-if($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $valueName = $_POST['name'];
     $valueMail = $_POST['mail'];
 }
@@ -67,9 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!empty($newUser['name'] && !empty($newUser['email'] && !empty($newUser['password'])))) {
         if (!in_array($_POST['mail'], array_column($array, 'email'))) {
-            session_abort();
-            $sessionName = "";
-            $sessionMail = "";
+            $valueMail = "";
+            $valueName = "";
             file_put_contents(__DIR__ . '/user_data.json', $user_data, LOCK_EX);
             $err = "Success! Welcome aboard!";
         } else {
@@ -83,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 $loader = new FilesystemLoader(__DIR__ . '/template');
 $twig = new Environment($loader);
 
-echo $twig->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail]);
+echo $twig->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null] );
 
 
 

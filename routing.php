@@ -3,8 +3,9 @@ declare(strict_types=1);
 $request = $_SERVER['REQUEST_URI'];
 $query = $_GET;
 
-
-if ($request === '/index.php') {
+if($request === '/'){
+    require __DIR__ . '/home.php';
+} else if ($request === '/index.php') {
     require __DIR__ . '/home.php';
 } else if ($query['page'] == 'competition') {
     require __DIR__ . '/teams.php';

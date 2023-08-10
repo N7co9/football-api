@@ -16,13 +16,10 @@
     <input type="submit">
 </form>
 
-{{ eName }}
-<br>
-{{ eMail }}
-<br>
-{{ ePass }}
-<br>
-{{ error }}
+{% if feedback %}
+<p style="color:red">{{ feedback }}</p>
+{% endif %}
+
 
 <p>Need to go back to the Homepage? Click <a href="/index.php">here</a>!</p>
 
