@@ -5,22 +5,22 @@ use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
 
-$userData = file_get_contents(__DIR__ . '/user_data.json');
+$userData = file_get_contents(__DIR__ . '/../model/user_data.json');
 $dataArray = json_decode($userData, true);
 
 
-foreach ($dataArray as $item){
+foreach ($dataArray as $item) {
     $passList [] = $item ['password'];
 }
 
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    foreach ($passList as $hash){
+    foreach ($passList as $hash) {
         $valid = password_verify($_POST['password'], $hash);
     }
 
-    if(in_array($_POST['mail'], array_column($dataArray, 'email')) && !empty($valid)){
+    if (in_array($_POST['mail'], array_column($dataArray, 'email')) && !empty($valid)) {
         $_SESSION['mail'] = $_POST['mail'];
         $feedback = 'success';
         header('Location: http://localhost:8000/index.php');
@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 }
 
 
-$loader = new FilesystemLoader(__DIR__ . '/template');
+$loader = new FilesystemLoader(__DIR__ . '/../view/template');
 $twig = new Environment($loader);
 
-echo $twig->render('login.twig', ['feedback' => $feedback ?? null ]);
+echo $twig->render('login.twig', ['feedback' => $feedback ?? null]);

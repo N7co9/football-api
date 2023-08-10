@@ -12,7 +12,7 @@ $response = file_get_contents($uri, false, $stream_context);
 $result = json_decode($response);
 
 
-$loader = new FilesystemLoader(__DIR__ . '/template');
+$loader = new FilesystemLoader(__DIR__ . '/../view/template');
 $twig = new Environment($loader);
 
 echo $twig->render('home.twig', ['competitions' => $result->competitions, 'user' => $_SESSION['mail'] ?? null]);

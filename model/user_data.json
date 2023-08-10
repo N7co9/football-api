@@ -28,5 +28,10 @@
         "name": "lolol",
         "email": "133@1233.de",
         "password": "$2y$10$.cLsu0Q9Xc6QC7FxyVtJr.5TkRE\/H.SlzWBg1fDwBqVN16gTBOMbW"
+    },
+    {
+        "name": "New Person",
+        "email": "new@new.de",
+        "password": "$2y$10$1HT37oWhsyINUL2r1yQlSOYoV6wsttMNbghUSx8zXQuiQUupLQzOS"
     }
 ]

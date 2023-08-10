@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $errPass = 'Hoops, your password doesnt look right!';
     }
 
-    $jsondumb = file_get_contents(__DIR__ . '/user_data.json');
+    $jsondumb = file_get_contents(__DIR__ . '/../model/user_data.json');
     $jsonDecode = json_decode($jsondumb);
 
     $array = json_decode(json_encode($jsonDecode), true);
@@ -52,11 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     );
 
 
-    if (!file_exists(__DIR__ . '/user_data.json')) {
+    if (!file_exists(__DIR__ . '/../model/user_data.json')) {
         $firstRecord = array($newUser);
         $dataToSave = $firstRecord;
     } else {
-        $oldRecords = json_decode(file_get_contents("user_data.json"));
+        $oldRecords = json_decode(file_get_contents(__DIR__ . '/../model/user_data.json'));
         $oldRecords[] = $newUser;
         $dataToSave = $oldRecords;
     }
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!in_array($_POST['mail'], array_column($array, 'email'))) {
             $valueMail = "";
             $valueName = "";
-            file_put_contents(__DIR__ . '/user_data.json', $user_data, LOCK_EX);
+            file_put_contents(__DIR__ . '/../model/user_data.json', $user_data, LOCK_EX);
             $err = "Success! Welcome aboard!";
         } else {
             $err = "Hoops, your Email is already registered";
@@ -77,10 +77,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-$loader = new FilesystemLoader(__DIR__ . '/template');
+$loader = new FilesystemLoader(__DIR__ . '/../view/template');
 $twig = new Environment($loader);
 
-echo $twig->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null] );
+echo $twig->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null]);
 
 
 
