@@ -1,4 +1,9 @@
 {
+  "autoload": {
+    "psr-4": {
+      "MyProject\\": "controller/"
+    }
+  },
   "require": {
     "ext-json": "*",
     "twig/twig": "^3.0"

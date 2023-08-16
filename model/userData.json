@@ -33,5 +33,25 @@
         "name": "New Person",
         "email": "new@new.de",
         "password": "$2y$10$1HT37oWhsyINUL2r1yQlSOYoV6wsttMNbghUSx8zXQuiQUupLQzOS"
+    },
+    {
+        "name": "qdqwdq",
+        "email": "sqcqw@djjd.de",
+        "password": "$2y$10$ZgyJVvI8FKCiJdz9hkZ0SeRh\/\/uPwLSyJ7Gp5i1kMrFhByokxrzwC"
+    },
+    {
+        "name": "MeinName",
+        "email": "validati3on@validation.com",
+        "password": "$2y$10$L16n40tlAMWmuZWFfGaLbOinZLSnXRt6tnrRHXHINwhRLVrDLnw62"
+    },
+    {
+        "name": "RegistrationController",
+        "email": "Controller@registration.com",
+        "password": "$2y$10$0m8NmotEnUXbSZE6aeGGxecP0pSQLak2.KJ2\/PVsL21Cp7OXsy6.."
+    },
+    {
+        "name": "finaltest",
+        "email": "controller@controller.de",
+        "password": "$2y$10$cgGHTJpyS\/rnxCX5y5bd2eovMWsP4ndE3X2X1yptUkXPL625CDXMu"
     }
 ]
