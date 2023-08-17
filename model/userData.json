@@ -53,5 +53,20 @@
         "name": "finaltest",
         "email": "controller@controller.de",
         "password": "$2y$10$cgGHTJpyS\/rnxCX5y5bd2eovMWsP4ndE3X2X1yptUkXPL625CDXMu"
+    },
+    {
+        "name": "newtest",
+        "email": "lol@lol.dell",
+        "password": "$2y$10$9Z1DKfkb7KPNxIqPdQyIderI1oYrHDKtzQf3PSFnuUFlittuay\/Ua"
+    },
+    {
+        "name": "seventeen",
+        "email": "seventeen@seven.de",
+        "password": "$2y$10$4SVDLS9q\/T412415Kbxtz.t1gKm76pq.BMWnONI6TmCuVHKynIzeO"
+    },
+    {
+        "name": "MeinName",
+        "email": "valid44ation@validation.com",
+        "password": "$2y$10$A2g5KKfOo5AX8Y6kYv8hO.AKONk8VJdJnsdYR76w.wND2Qv.mpolS"
     }
 ]

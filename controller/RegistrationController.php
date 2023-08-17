@@ -7,11 +7,11 @@ use Twig\Loader\FilesystemLoader;
 
 class RegistrationController
 {
-    public function dataConstruct($pwInput, $emInput, $nmInput): array
+    public function dataConstruct()
     {
-        $nameUnverified = $nmInput;
-        $emailUnverified = $emInput;
-        $passwordUnverified = $pwInput;
+        $nameUnverified = $_POST['name'] ?? null;
+        $emailUnverified = $_POST['mail'] ?? null;
+        $passwordUnverified = $_POST['password'] ?? null;
 
         $valueName = "";
         $valueMail = "";
@@ -84,19 +84,6 @@ class RegistrationController
             }
         }
 
-
-        return array(
-            'valueName' => $valueName ?? null,
-            'valueMail' => $valueMail ?? null,
-            'errName' => $errName ?? null,
-            'err' => $err ?? null,
-            'errPass' => $errPass ?? null,
-            'errMail' => $errMail ?? null,
-        );
-    }
-
-    public function display($err, $valueName, $valueMail, $errName, $errMail, $errPass): void
-    {
         $loader = new FilesystemLoader(__DIR__ . '/../view/template');
         $twig = new Environment($loader);
         echo $twig->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null]);
