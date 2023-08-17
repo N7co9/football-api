@@ -5,7 +5,7 @@ namespace MyProject;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-class RegistrationController
+class RegistrationController implements ControllerInterface
 {
     public function dataConstruct()
     {
@@ -83,9 +83,7 @@ class RegistrationController
                 $err = 'Hoops, your Registration is not complete!';
             }
         }
-
-        $loader = new FilesystemLoader(__DIR__ . '/../view/template');
-        $twig = new Environment($loader);
+        $twig = initTwig();
         echo $twig->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null]);
     }
 }

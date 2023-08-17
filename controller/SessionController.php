@@ -4,12 +4,12 @@ namespace MyProject;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
-class SessionController
+class SessionController implements ControllerInterface
 {
     public function dataConstruct()
     {
         $userData = file_get_contents(__DIR__ . '/../model/userData.json');
-        $dataArray = json_decode($userData, true);
+        $dataArray = json_decode($userData, true, 512, JSON_THROW_ON_ERROR);
 
         foreach ($dataArray as $item) {
             $passList [] = $item ['password'];
@@ -18,7 +18,7 @@ class SessionController
             foreach ($passList as $hash) {
                 $valid = password_verify($_POST['password'], $hash);
             }
-            if (in_array($_POST['mail'], array_column($dataArray, 'email')) && !empty($valid)) {
+            if (!empty($valid)  && in_array($_POST['mail'], array_column($dataArray, 'email'), true)) {
                 $_SESSION['mail'] = $_POST['mail'];
                 $feedback = 'success';
                 header('Location: http://localhost:8079/index.php');
@@ -26,14 +26,7 @@ class SessionController
                 $feedback = 'not a valid combination';
             }
         }
-        $loader = new FilesystemLoader(__DIR__ . '/../view/template');
-        $twig = new Environment($loader);
+        $twig = initTwig();
         echo $twig->render('login.twig', ['feedback' => $feedback ?? null]);
-    }
-    public function logout(){
-        session_start();
-        session_destroy();
-        header('Location: /../index.php');
-        exit;
     }
 }
