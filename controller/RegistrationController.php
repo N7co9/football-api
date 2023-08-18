@@ -2,12 +2,22 @@
 
 namespace MyProject;
 
+use model\UserEntityManager;
+use model\UserRepository;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
 class RegistrationController implements ControllerInterface
 {
-    public function dataConstruct()
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function dataConstruct(): void
     {
         $nameUnverified = $_POST['name'] ?? null;
         $emailUnverified = $_POST['mail'] ?? null;
@@ -21,7 +31,6 @@ class RegistrationController implements ControllerInterface
             $valueName = $_POST['name'];
             $valueMail = $_POST['mail'];
         }
-
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!empty($nameUnverified) && preg_match("/^[a-zA-Z-' ]*$/", $nameUnverified)) {
@@ -39,42 +48,27 @@ class RegistrationController implements ControllerInterface
             }
 
             if (!empty($passwordUnverified && preg_match('@[A-Z]@', $passwordUnverified) && preg_match('@[a-z]@',
-                    $passwordUnverified) && preg_match('@[0-9]@', $passwordUnverified) && preg_match('@[^\w]@', $passwordUnverified) && strlen($passwordUnverified) > 6)) {
-                $validPassword = password_hash($passwordUnverified, PASSWORD_DEFAULT);
+                    $passwordUnverified) && preg_match('@\d@', $passwordUnverified) && preg_match('@\W@', $passwordUnverified) && (strlen($passwordUnverified) > 6))) {
+                $validPassword = password_hash(password: $passwordUnverified, algo: PASSWORD_DEFAULT);
             } else {
                 $validPassword = '';
                 $errPass = 'Hoops, your password doesnt look right!';
             }
 
-            $newUser = array(
-                'name' => $validName,
-                'email' => $validEmail,
-                'password' => $validPassword,
-            );
         }
 
-        $jsondumb = file_get_contents(__DIR__ . '/../model/userData.json');
-        $jsonDecode = json_decode($jsondumb);
-
-        $array = json_decode(json_encode($jsonDecode), true);
+        $newUser = array(
+            'name' => $validName ?? null,
+            'email' => $validEmail ?? null,
+            'password' => $validPassword ?? null
+        );
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!file_exists(__DIR__ . '/../model/userData.json')) {
-                $firstRecord = array($newUser);
-                $dataToSave = $firstRecord;
-            } else {
-                $oldRecords = json_decode(file_get_contents(__DIR__ . '/../model/userData.json'));
-                $oldRecords[] = $newUser;
-                $dataToSave = $oldRecords;
-            }
-
-            $user_data = json_encode($dataToSave, JSON_PRETTY_PRINT);
-
-            if (!empty($newUser['name'] && !empty($newUser['email'] && !empty($newUser['password'])))) {
-                if (!in_array($validEmail, array_column($array, 'email'))) {
+            if (!empty($validName) && !empty($validEmail) && !empty($validPassword)) {
+                if (empty((new UserRepository())->findByMail($validEmail))) {
                     $valueMail = "";
                     $valueName = "";
-                    file_put_contents(__DIR__ . '/../model/userData.json', $user_data, LOCK_EX);
+                    (new UserEntityManager())->save($newUser);
                     $err = "Success! Welcome aboard!";
                 } else {
                     $err = "Hoops, your Email is already registered";
@@ -83,7 +77,7 @@ class RegistrationController implements ControllerInterface
                 $err = 'Hoops, your Registration is not complete!';
             }
         }
-        $twig = initTwig();
-        echo $twig->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null]);
+
+        (new \vendor\TemplateEngine())->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null]);
     }
 }

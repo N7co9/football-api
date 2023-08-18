@@ -1,24 +1,27 @@
 <?php
 declare(strict_types=1);
+
 namespace MyProject;
+
+use model\UserRepository;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
 class SessionController implements ControllerInterface
 {
-    public function dataConstruct()
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
+    public function dataConstruct(): void
     {
-        $userData = file_get_contents(__DIR__ . '/../model/userData.json');
-        $dataArray = json_decode($userData, true, 512, JSON_THROW_ON_ERROR);
-
-        foreach ($dataArray as $item) {
-            $passList [] = $item ['password'];
-        }
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            foreach ($passList as $hash) {
-                $valid = password_verify($_POST['password'], $hash);
-            }
-            if (!empty($valid)  && in_array($_POST['mail'], array_column($dataArray, 'email'), true)) {
+            $verify = (new UserRepository())->checkCombo($_POST['mail'], $_POST['password']);               // calls UserRepository, which checks the login credentials and returns a boolean.
+            if ($verify === true) {
                 $_SESSION['mail'] = $_POST['mail'];
                 $feedback = 'success';
                 header('Location: http://localhost:8079/index.php');
@@ -26,7 +29,6 @@ class SessionController implements ControllerInterface
                 $feedback = 'not a valid combination';
             }
         }
-        $twig = initTwig();
-        echo $twig->render('login.twig', ['feedback' => $feedback ?? null]);
+        (new \vendor\TemplateEngine())->render('login.twig', ['feedback' => $feedback ?? null]);
     }
 }

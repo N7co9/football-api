@@ -1,7 +1,9 @@
 {
   "autoload": {
     "psr-4": {
-      "MyProject\\": "controller/"
+      "MyProject\\": "controller/",
+      "model\\": "model/",
+      "vendor\\": "vendor/"
     }
   },
   "require": {

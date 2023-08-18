@@ -1,15 +1,24 @@
 <?php
 declare(strict_types=1);
+
 namespace MyProject;
-use Twig\Loader\FilesystemLoader;
-use Twig\Environment;
+
+use JsonException;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class HomeController implements ControllerInterface
 {
-    public function dataConstruct()
+    /**
+     * @throws SyntaxError
+     * @throws RuntimeError
+     * @throws LoaderError
+     * @throws JsonException
+     */
+    public function dataConstruct(): void
     {
         $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/competitions/');
-        $twig = initTwig();
-        echo $twig->render('home.twig', ['competitions' => $result['competitions'], 'user' => $_SESSION['mail'] ?? null]);
+        (new \vendor\TemplateEngine())->render('home.twig', ['competitions' => $result['competitions'], 'user' => $_SESSION['mail'] ?? null]);
     }
 }
