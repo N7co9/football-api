@@ -12,7 +12,7 @@ class TemplateEngine
 {
     public function render($template, $data)
     {
-        $loader = new FilesystemLoader(__DIR__ . '/../view/template/');
+        $loader = new FilesystemLoader(__DIR__ . '/../view/template');
         $twig = new Environment($loader);
         echo $twig->render($template, $data);
     }

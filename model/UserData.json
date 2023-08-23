@@ -83,5 +83,15 @@
     "name": "MeinName",
     "email": "iuiuiu@lo.de",
     "password": "$2y$10$6h20OIcH7hiFJ8lx7jvpx.rTzEH.0Ny\/4Ox7INyrXxObmBb4iFe4e"
+  },
+  {
+    "name": "RegisterTest",
+    "email": "fjefi@oew.de",
+    "password": "$2y$10$wCePCVSLkHln73lmaAS.iu.BrGwmgfW4Geoe7l2hk6DulgDbjSkwW"
+  },
+  {
+    "name": "SabineMueller",
+    "email": "Sabine@muller.de",
+    "password": "$2y$10$iO1jzQ9FL919CjAHuxpbh.8EtTLnNUgkoxi78BbRFk1jfv14lk7Om"
   }
 ]

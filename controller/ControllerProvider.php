@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace MyProject;
 
 use JsonException;
+use model\UserEntityManager;
+use model\UserRepository;
 use vendor\TemplateEngine;
 
 class ControllerProvider
@@ -18,10 +20,12 @@ class ControllerProvider
         $query = $_GET['page'] ?? null;
 
         $template = new TemplateEngine();
+        $userManager = new UserEntityManager();
+        $userRepository = new UserRepository();
 
         foreach ($array as $item) {
             if ($request === $item['url'] || $query === $item['query']) {
-                $controller = new $item['controller']($template);
+                $controller = new $item['controller']($template, $userManager, $userRepository);
                 $controller->dataConstruct();
             }
         }

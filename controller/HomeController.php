@@ -12,9 +12,6 @@ use vendor\TemplateEngine;
 class HomeController implements ControllerInterface
 {
 
-    public function __construct(private TemplateEngine $templateEngine)
-    {
-    }
 
     /**
      * @throws SyntaxError
@@ -22,6 +19,11 @@ class HomeController implements ControllerInterface
      * @throws LoaderError
      * @throws JsonException
      */
+
+    public function __construct(private TemplateEngine $templateEngine)
+    {
+
+    }
 
     public function dataConstruct(): void
     {

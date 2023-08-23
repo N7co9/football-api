@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace MyProject;
 
 use JsonException;
+use model\UserEntityManager;
 use model\UserRepository;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -18,15 +19,16 @@ class SessionController implements ControllerInterface
      * @throws JsonException
      */
 
-    public function __construct(private TemplateEngine $templateEngine)
+    public function __construct(private TemplateEngine $templateEngine, private UserEntityManager $userEntityManager, private UserRepository $userRepository)
     {
-
+        $_ = $this->userEntityManager;
     }
 
     public function dataConstruct(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $verify = (new UserRepository())->checkCombo($_POST['mail'], $_POST['password']);               // calls UserRepository, which checks the login credentials and returns a boolean.
+            $verify = (
+            $this->userRepository->checkCombo($_POST['mail'], $_POST['password']));                // calls UserRepository, which checks the login credentials and returns a boolean.
             if ($verify === true) {
                 $_SESSION['mail'] = $_POST['mail'];
                 $feedback = 'success';

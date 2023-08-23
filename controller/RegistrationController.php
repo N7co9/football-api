@@ -19,7 +19,7 @@ class RegistrationController implements ControllerInterface
      * @throws LoaderError
      */
 
-    public function __construct(private TemplateEngine $templateEngine)
+    public function __construct(private TemplateEngine $templateEngine, private UserEntityManager $userEntityManager, private UserRepository $userRepository)
     {
     }
 
@@ -71,10 +71,10 @@ class RegistrationController implements ControllerInterface
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!empty($validName) && !empty($validEmail) && !empty($validPassword)) {
-                if (empty((new UserRepository())->findByMail($validEmail))) {
+                if (empty($this->userRepository->findByMail($validEmail))) {
                     $valueMail = "";
                     $valueName = "";
-                    (new UserEntityManager())->save($newUser);
+                    $this->userEntityManager->save($newUser);
                     $err = "Success! Welcome aboard!";
                 } else {
                     $err = "Hoops, your Email is already registered";

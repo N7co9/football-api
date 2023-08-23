@@ -14,9 +14,9 @@ class UserRepository
         $array = json_decode(file_get_contents(__DIR__ . '/UserData.json'), true, 512, JSON_THROW_ON_ERROR);
         foreach ($array as $entry) {
             if ($entry['email'] === $mail) {
-                $user [] = $entry['name'];
-                $user [] = $entry['email'];
-                $user [] = $entry['password'];
+                $user[] = $entry['name'];
+                $user[] = $entry['email'];
+                $user[] = $entry['password'];
             }
         }
         return $user ?? null;
