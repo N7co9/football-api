@@ -9,6 +9,7 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
+use vendor\TemplateEngine;
 
 class RegistrationController implements ControllerInterface
 {
@@ -17,6 +18,11 @@ class RegistrationController implements ControllerInterface
      * @throws RuntimeError
      * @throws LoaderError
      */
+
+    public function __construct(private TemplateEngine $templateEngine)
+    {
+    }
+
     public function dataConstruct(): void
     {
         $nameUnverified = $_POST['name'] ?? null;
@@ -78,6 +84,6 @@ class RegistrationController implements ControllerInterface
             }
         }
 
-        (new \vendor\TemplateEngine())->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null]);
+        $this->templateEngine->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null]);
     }
 }

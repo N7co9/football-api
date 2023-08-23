@@ -3,20 +3,26 @@ declare(strict_types=1);
 
 namespace MyProject;
 
+use JsonException;
 use model\UserRepository;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
+use vendor\TemplateEngine;
 
 class SessionController implements ControllerInterface
 {
     /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
+     * @throws JsonException
      */
+
+    public function __construct(private TemplateEngine $templateEngine)
+    {
+
+    }
+
     public function dataConstruct(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -29,6 +35,6 @@ class SessionController implements ControllerInterface
                 $feedback = 'not a valid combination';
             }
         }
-        (new \vendor\TemplateEngine())->render('login.twig', ['feedback' => $feedback ?? null]);
+        $this->templateEngine->render('login.twig', ['feedback' => $feedback ?? null]);
     }
 }

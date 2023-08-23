@@ -13,6 +13,11 @@ use vendor\TemplateEngine;
 
 class ClubController implements ControllerInterface
 {
+    public function __construct(private TemplateEngine $templateEngine)
+    {
+
+    }
+
     /**
      * @throws SyntaxError
      * @throws RuntimeError
@@ -23,6 +28,6 @@ class ClubController implements ControllerInterface
     {
         $team_id = $_GET['id'];
         $result = ApiHandling::makeApiRequest(url: 'http://api.football-data.org/v4/teams/' . $team_id);
-        (new \vendor\TemplateEngine())->render('club.twig', ['result' => $result['squad']]);
+        $this->templateEngine->render('club.twig', ['result' => $result['squad']]);
     }
 }

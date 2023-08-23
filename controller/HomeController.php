@@ -7,18 +7,26 @@ use JsonException;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
+use vendor\TemplateEngine;
 
 class HomeController implements ControllerInterface
 {
+
+    public function __construct(private TemplateEngine $templateEngine)
+    {
+    }
+
     /**
      * @throws SyntaxError
      * @throws RuntimeError
      * @throws LoaderError
      * @throws JsonException
      */
+
     public function dataConstruct(): void
     {
         $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/competitions/');
-        (new \vendor\TemplateEngine())->render('home.twig', ['competitions' => $result['competitions'], 'user' => $_SESSION['mail'] ?? null]);
+        $this->templateEngine->render('home.twig', ['competitions' => $result['competitions'], 'user' => $_SESSION['mail'] ?? null]);
     }
+
 }

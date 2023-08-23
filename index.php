@@ -14,12 +14,6 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
 
-function initTwig(): Environment                                     // TWIG INITIALIZATION
-{
-    $loader = new FilesystemLoader(__DIR__ . '/view/template/');
-    return new Environment($loader);
-}
-
 try {
     (new ControllerProvider())->provide();
 } catch (JsonException $e) {
