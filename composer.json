@@ -1,13 +1,18 @@
 {
   "autoload": {
     "psr-4": {
-      "MyProject\\": "controller/",
-      "model\\": "model/",
-      "vendor\\": "vendor/"
+      "MyProject\\": "src/controller/",
+      "model\\": "src/model/",
+      "core\\": "src/core",
+      "AppTest\\": "tests/AppTest/"
     }
   },
   "require": {
     "ext-json": "*",
-    "twig/twig": "^3.0"
+    "twig/twig": "^3.0",
+    "ext-http": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.3"
   }
 }
