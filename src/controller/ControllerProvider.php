@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace MyProject;
 
+use core\View;
 use JsonException;
 use model\UserEntityManager;
 use model\UserRepository;
-use core\TemplateEngine;
 
 class ControllerProvider
 {
@@ -19,7 +19,7 @@ class ControllerProvider
         $request = $_SERVER['REQUEST_URI'] ?? null;
         $query = $_GET['page'] ?? null;
 
-        $template = new TemplateEngine();
+        $template = new View(__DIR__ . '/../view/template');
         $userManager = new UserEntityManager(__DIR__ . '/../model/UserData.json');
         $userRepository = new UserRepository();
 

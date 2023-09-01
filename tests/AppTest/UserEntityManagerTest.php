@@ -63,9 +63,4 @@ class UserEntityManagerTest extends TestCase
         }
         self::assertArrayHasKey('test', $importJSON[$count]);
     }
-
-    public function testSaveExcep() : void
-    {
-
-    }
 }

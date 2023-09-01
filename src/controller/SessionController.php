@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace MyProject;
 
+use core\View;
 use JsonException;
 use model\UserEntityManager;
 use model\UserRepository;
@@ -11,7 +12,6 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
-use core\TemplateEngine;
 
 class SessionController implements ControllerInterface
 {
@@ -19,7 +19,7 @@ class SessionController implements ControllerInterface
      * @throws JsonException
      */
 
-    public function __construct(private TemplateEngine $templateEngine, private UserEntityManager $userEntityManager, private UserRepository $userRepository)
+    public function __construct(private View $templateEngine, private UserEntityManager $userEntityManager, private UserRepository $userRepository)
     {
         $_ = $this->userEntityManager;
     }
@@ -37,6 +37,7 @@ class SessionController implements ControllerInterface
                 $feedback = 'not a valid combination';
             }
         }
-        $this->templateEngine->render('login.twig', ['feedback' => $feedback ?? null]);
+        $this->templateEngine->addParameter('feedback' , $feedback ?? null);
+        $this->templateEngine->display('login.twig');
     }
 }

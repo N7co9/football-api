@@ -4,7 +4,8 @@
       "MyProject\\": "src/controller/",
       "model\\": "src/model/",
       "core\\": "src/core",
-      "AppTest\\": "tests/AppTest/"
+      "AppTest\\": "tests/AppTest/",
+      "ControllerTest\\": "tests/ControllerTest/"
     }
   },
   "require": {

@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MyProject;
 
+use core\View;
 use model\UserEntityManager;
 use model\UserRepository;
 use Twig\Environment;
@@ -9,7 +10,6 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
-use core\TemplateEngine;
 
 class RegistrationController implements ControllerInterface
 {
@@ -19,7 +19,7 @@ class RegistrationController implements ControllerInterface
      * @throws LoaderError
      */
 
-    public function __construct(private TemplateEngine $templateEngine, private UserEntityManager $userEntityManager, private UserRepository $userRepository)
+    public function __construct(private View $templateEngine, private UserEntityManager $userEntityManager, private UserRepository $userRepository)
     {
     }
 
@@ -84,6 +84,12 @@ class RegistrationController implements ControllerInterface
             }
         }
 
-        $this->templateEngine->render('registration.twig', ['error' => $err, 'vName' => $valueName, 'vMail' => $valueMail, 'eName' => $errName ?? null, 'eMail' => $errMail ?? null, 'ePass' => $errPass ?? null]);
-    }
+        $this->templateEngine->addParameter('error' , $err);
+        $this->templateEngine->addParameter('vName' , $valueName);
+        $this->templateEngine->addParameter('vMail' , $valueMail);
+        $this->templateEngine->addParameter('eName' , $errName ?? null);
+        $this->templateEngine->addParameter('eMail' , $errMail ?? null);
+        $this->templateEngine->addParameter('ePass' , $errPass ?? null);
+
+        $this->templateEngine->display('registration.twig');    }
 }

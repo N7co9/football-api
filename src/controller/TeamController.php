@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace MyProject;
 
+use core\View;
 use JsonException;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
-use core\TemplateEngine;
 
 
 class TeamController implements ControllerInterface
@@ -21,7 +21,7 @@ class TeamController implements ControllerInterface
      * @throws JsonException
      */
 
-    public function __construct(private TemplateEngine $templateEngine)
+    public function __construct(private View $templateEngine)
     {
 
     }
@@ -30,6 +30,7 @@ class TeamController implements ControllerInterface
     {
         $league_id = $_GET['name'];
         $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/competitions/' . $league_id . '/standings');
-        $this->templateEngine->render('teams.twig', ['standings' => $result['standings']]);
+        $this->templateEngine->addParameter('standings', $result['standings']);
+        $this->templateEngine->display('teams.twig');
     }
 }

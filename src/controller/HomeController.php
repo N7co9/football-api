@@ -3,24 +3,16 @@ declare(strict_types=1);
 
 namespace MyProject;
 
+use core\View;
 use JsonException;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use core\TemplateEngine;
 
 class HomeController implements ControllerInterface
 {
 
-
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     * @throws JsonException
-     */
-
-    public function __construct(private TemplateEngine $templateEngine)
+    public function __construct(private View $templateEngine)
     {
 
     }
@@ -28,7 +20,9 @@ class HomeController implements ControllerInterface
     public function dataConstruct(): void
     {
         $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/competitions/');
-        $this->templateEngine->render('home.twig', ['competitions' => $result['competitions'], 'user' => $_SESSION['mail'] ?? null]);
+        $this->templateEngine->addParameter('competitions', $result['competitions']);
+        $this->templateEngine->addParameter('user', $_SESSION['mail'] ?? null);
+        $this->templateEngine->display('home.twig');
     }
 
 }

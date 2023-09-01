@@ -14,5 +14,6 @@ return array(
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'MyProject\\' => array($baseDir . '/src/controller'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
+    'ControllerTest\\' => array($baseDir . '/tests/ControllerTest'),
     'AppTest\\' => array($baseDir . '/tests/AppTest'),
 );
