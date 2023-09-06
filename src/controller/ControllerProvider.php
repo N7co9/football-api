@@ -6,6 +6,7 @@ namespace MyProject;
 use core\View;
 use JsonException;
 use model\UserEntityManager;
+use model\UserMapper;
 use model\UserRepository;
 
 class ControllerProvider
@@ -20,7 +21,7 @@ class ControllerProvider
         $query = $_GET['page'] ?? null;
 
         $template = new View(__DIR__ . '/../view/template');
-        $userManager = new UserEntityManager(__DIR__ . '/../model/UserData.json');
+        $userManager = new UserEntityManager(new UserMapper(__DIR__ . '/../model/UserData.json'));
         $userRepository = new UserRepository();
 
         foreach ($array as $item) {

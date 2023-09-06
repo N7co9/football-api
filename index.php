@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+use model\userDTO;
+use model\UserMapper;
 use MyProject\ControllerProvider;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -18,3 +20,5 @@ try {
     (new ControllerProvider())->provide();
 } catch (JsonException $e) {
 }
+
+

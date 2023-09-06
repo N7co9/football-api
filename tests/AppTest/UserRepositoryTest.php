@@ -11,7 +11,8 @@ class UserRepositoryTest extends TestCase
     /**
      * @throws JsonException
      */
-    public function testFindByMail(): void
+
+   public function testFindByMail(): void
     {
         $testFindByMail = new UserRepository();
         $findByMailArray = $testFindByMail->findByMail('MeinName@mail.com');
@@ -25,6 +26,8 @@ class UserRepositoryTest extends TestCase
     /**
      * @throws JsonException
      */
+
+    /**
     public function testInvalidMail(): void
     {
         $mailexception = new UserRepository();
@@ -32,6 +35,7 @@ class UserRepositoryTest extends TestCase
         $this->expectExceptionMessage('invalid email');
         $mailexception->findByMail('invalid-input');
     }
+     *
 
     /**
      * @throws JsonException

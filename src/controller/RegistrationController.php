@@ -3,8 +3,10 @@
 namespace MyProject;
 
 use core\View;
+use model\userDTO;
 use model\UserEntityManager;
 use model\UserRepository;
+use PHPUnit\Logging\Exception;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -25,18 +27,11 @@ class RegistrationController implements ControllerInterface
 
     public function dataConstruct(): void
     {
-        $nameUnverified = $_POST['name'] ?? null;
-        $emailUnverified = $_POST['mail'] ?? null;
-        $passwordUnverified = $_POST['password'] ?? null;
-
-        $valueName = "";
-        $valueMail = "";
         $err = '';
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $valueName = $_POST['name'];
-            $valueMail = $_POST['mail'];
-        }
+        $nameUnverified = $_POST['name'] ?? '';
+        $emailUnverified = $_POST['mail'] ?? '';
+        $passwordUnverified = $_POST['password'] ?? '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!empty($nameUnverified) && preg_match("/^[a-zA-Z-' ]*$/", $nameUnverified)) {
@@ -61,22 +56,18 @@ class RegistrationController implements ControllerInterface
                 $errPass = 'Hoops, your password doesnt look right!';
             }
 
-        }
+            $newUser = new userDTO();
+            $newUser->setName($validName);
+            $newUser->setEmail($validEmail);
+            $newUser->setPassword($validPassword);
 
-        $newUser = array(
-            'name' => $validName ?? null,
-            'email' => $validEmail ?? null,
-            'password' => $validPassword ?? null
-        );
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!empty($validName) && !empty($validEmail) && !empty($validPassword)) {
                 if (empty($this->userRepository->findByMail($validEmail))) {
-                    $valueMail = "";
-                    $valueName = "";
+                    $nameUnverified = "";
+                    $emailUnverified = "";
                     $this->userEntityManager->save($newUser);
                     $err = "Success! Welcome aboard!";
-                } else {
+                } else if (!empty($this->userRepository->findByMail($validEmail))) {
                     $err = "Hoops, your Email is already registered";
                 }
             } else {
@@ -85,8 +76,8 @@ class RegistrationController implements ControllerInterface
         }
 
         $this->templateEngine->addParameter('error' , $err);
-        $this->templateEngine->addParameter('vName' , $valueName);
-        $this->templateEngine->addParameter('vMail' , $valueMail);
+        $this->templateEngine->addParameter('vName' , $nameUnverified);
+        $this->templateEngine->addParameter('vMail' , $emailUnverified);
         $this->templateEngine->addParameter('eName' , $errName ?? null);
         $this->templateEngine->addParameter('eMail' , $errMail ?? null);
         $this->templateEngine->addParameter('ePass' , $errPass ?? null);

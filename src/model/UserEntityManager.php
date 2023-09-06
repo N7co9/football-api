@@ -7,7 +7,7 @@ use JsonException;
 class UserEntityManager
 {
     public function __construct(
-        private readonly string $path,
+        private readonly UserMapper $userMapper,
     )
     {
     }
@@ -15,20 +15,12 @@ class UserEntityManager
     /**
      * @throws JsonException
      */
-    public function save($newUser)
+    public function save(userDTO $newUser)
     {
-        if (!file_exists($this->path)) {
-            $firstRecord = array($newUser);
-            $dataToSave = $firstRecord;
-        } else  {
-            $oldRecords = json_decode(file_get_contents($this->path), false, 512, JSON_THROW_ON_ERROR);
-            $oldRecords[] = $newUser;
-            $dataToSave = $oldRecords;
-        }
+        $userDTOList = $this->userMapper->JsonToDTO();
 
-        $user_data = json_encode($dataToSave, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
-        file_put_contents($this->path, $user_data, LOCK_EX);
+        $userDTOList[] = $newUser;
 
-        return array($dataToSave);
+        $this->userMapper->DTO2Json($userDTOList);
     }
 }

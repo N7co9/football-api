@@ -93,5 +93,25 @@
         "name": "SabineMueller",
         "email": "Sabine@muller.de",
         "password": "$2y$10$iO1jzQ9FL919CjAHuxpbh.8EtTLnNUgkoxi78BbRFk1jfv14lk7Om"
+    },
+    {
+        "name": "MeinName",
+        "email": "MeinNam2e@mail.com",
+        "password": "$2y$10$C2bZuszwvWOdKJmX4kW.i.dRjXzWb60Pww4beMqNKIaIiWk\/RAeiG"
+    },
+    {
+        "name": "MeinName",
+        "email": "validation@valid45ation.com",
+        "password": "$2y$10$lXfD8wXtnvG2tPXkNG7FOeP4oCZgAb2oTEC8Dcv2VJ7PehO03EZ2S"
+    },
+    {
+        "name": "MeinName",
+        "email": "valid334ation@validation.com",
+        "password": "$2y$10$1AZTqKnLbkgTTeh6IDlNJ.6XxAgiTjN3R.ps6fNGu4g9tEFOCDT\/S"
+    },
+    {
+        "name": "Haurn",
+        "email": "harun@harun.lol",
+        "password": "$2y$10$FjiCJVsfxjUFQXdj7f04POSZiKksUj1m5ZNFkL8t1kzEXkj52sCd2"
     }
 ]
