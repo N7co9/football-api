@@ -1,8 +1,8 @@
 <?php
 
-namespace model;
+namespace DTO;
 
-class userDTO
+class UserDTO
 {
     private string $name;
     private string $email;

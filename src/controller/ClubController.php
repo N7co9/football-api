@@ -13,7 +13,7 @@ use Twig\Environment;
 
 class ClubController implements ControllerInterface
 {
-    public function __construct(private View $templateEngine)
+    public function __construct(private readonly View $templateEngine)
     {
 
     }

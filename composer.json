@@ -5,7 +5,8 @@
       "model\\": "src/model/",
       "core\\": "src/core",
       "AppTest\\": "tests/AppTest/",
-      "ControllerTest\\": "tests/ControllerTest/"
+      "ControllerTest\\": "tests/ControllerTest/",
+      "DTO\\": "src/DTO"
     }
   },
   "require": {

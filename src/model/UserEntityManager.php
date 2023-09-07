@@ -2,7 +2,7 @@
 
 namespace model;
 
-use JsonException;
+use DTO\UserDTO;
 
 class UserEntityManager
 {
@@ -12,15 +12,12 @@ class UserEntityManager
     {
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function save(userDTO $newUser)
+    public function save(UserDTO $newUser) : array
     {
         $userDTOList = $this->userMapper->JsonToDTO();
-
         $userDTOList[] = $newUser;
-
         $this->userMapper->DTO2Json($userDTOList);
+
+        return $userDTOList;
     }
 }

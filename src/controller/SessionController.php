@@ -15,11 +15,7 @@ use Twig\Environment;
 
 class SessionController implements ControllerInterface
 {
-    /**
-     * @throws JsonException
-     */
-
-    public function __construct(private View $templateEngine, private UserEntityManager $userEntityManager, private UserRepository $userRepository)
+    public function __construct(private readonly View $templateEngine, private readonly UserEntityManager $userEntityManager, private readonly UserRepository $userRepository)
     {
         $_ = $this->userEntityManager;
     }

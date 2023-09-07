@@ -14,14 +14,8 @@ use Twig\Environment;
 
 class TeamController implements ControllerInterface
 {
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     * @throws JsonException
-     */
 
-    public function __construct(private View $templateEngine)
+    public function __construct(private readonly View $templateEngine)
     {
 
     }

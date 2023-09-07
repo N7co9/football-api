@@ -1,11 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use model\userDTO;
-use model\UserMapper;
 use MyProject\ControllerProvider;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 require_once __DIR__ . "/vendor/autoload.php";
 
@@ -20,5 +16,3 @@ try {
     (new ControllerProvider())->provide();
 } catch (JsonException $e) {
 }
-
-

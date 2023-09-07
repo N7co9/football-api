@@ -3,84 +3,64 @@
 namespace MyProject;
 
 use core\View;
-use model\userDTO;
+use DTO\ErrorDTO;
+use DTO\UserDTO;
 use model\UserEntityManager;
 use model\UserRepository;
-use PHPUnit\Logging\Exception;
-use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
-use Twig\Loader\FilesystemLoader;
 
 class RegistrationController implements ControllerInterface
 {
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
-
-    public function __construct(private View $templateEngine, private UserEntityManager $userEntityManager, private UserRepository $userRepository)
+    public function __construct(private readonly View $templateEngine, private readonly UserEntityManager $userEntityManager, private readonly UserRepository $userRepository)
     {
     }
 
     public function dataConstruct(): void
     {
-        $err = '';
-
-        $nameUnverified = $_POST['name'] ?? '';
-        $emailUnverified = $_POST['mail'] ?? '';
-        $passwordUnverified = $_POST['password'] ?? '';
+        $userDTO = new UserDTO();
+        $userDTO->setName($_POST['name'] ?? '');
+        $userDTO->setEmail($_POST['mail'] ?? '');
+        $userDTO->setPassword($_POST['password'] ?? '');
+        $errorDTOList = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!empty($nameUnverified) && preg_match("/^[a-zA-Z-' ]*$/", $nameUnverified)) {
-                $validName = $nameUnverified;
-            } else {
-                $validName = '';
-                $errName = 'Hoops, your name doesnt look right!';
+
+            if (empty($userDTO->getName()) || !preg_match("/^[a-zA-Z-' ]*$/", $userDTO->getName())) {
+                $errorDTOList[] = new ErrorDTO('Oops, your name doesn\'t look right');
             }
 
-            if (!empty($emailUnverified && filter_var($emailUnverified, FILTER_VALIDATE_EMAIL))) {
-                $validEmail = $emailUnverified;
-            } else {
-                $validEmail = '';
-                $errMail = 'Hoops, your email doesnt look right!';
+            if (empty($userDTO->getEmail()) || !filter_var($userDTO->getEmail(), FILTER_VALIDATE_EMAIL)) {
+                $errorDTOList[] = new ErrorDTO('Oops, your email doesn\'t look right');
             }
 
-            if (!empty($passwordUnverified && preg_match('@[A-Z]@', $passwordUnverified) && preg_match('@[a-z]@',
-                    $passwordUnverified) && preg_match('@\d@', $passwordUnverified) && preg_match('@\W@', $passwordUnverified) && (strlen($passwordUnverified) > 6))) {
-                $validPassword = password_hash(password: $passwordUnverified, algo: PASSWORD_DEFAULT);
+            if (!empty($userDTO->getPassword() && preg_match('@[A-Z]@', $userDTO->getPassword()) && preg_match('@[a-z]@', $userDTO->getPassword()) &&
+                preg_match('@\d@', $userDTO->getPassword()) && preg_match('@\W@', $userDTO->getPassword()) &&
+                (strlen($userDTO->getPassword()) > 6))) {
+                $validPassword = password_hash(password: $userDTO->getPassword(), algo: PASSWORD_DEFAULT);
             } else {
                 $validPassword = '';
-                $errPass = 'Hoops, your password doesnt look right!';
+                $errorDTOList[] = new ErrorDTO('Oops, your password doesn\'t look right!');
             }
 
-            $newUser = new userDTO();
-            $newUser->setName($validName);
-            $newUser->setEmail($validEmail);
-            $newUser->setPassword($validPassword);
+            if (empty($errorDTOList)) {
+                $newUser = new UserDTO();
+                $newUser->setName($userDTO->getName() ?? '');
+                $newUser->setEmail($userDTO->getEmail() ?? '');
+                $newUser->setPassword($validPassword);
 
-            if (!empty($validName) && !empty($validEmail) && !empty($validPassword)) {
-                if (empty($this->userRepository->findByMail($validEmail))) {
-                    $nameUnverified = "";
-                    $emailUnverified = "";
+                if (empty($this->userRepository->findByMail($userDTO->getEmail()) && !empty($userDTO->getPassword()))) {
                     $this->userEntityManager->save($newUser);
-                    $err = "Success! Welcome aboard!";
-                } else if (!empty($this->userRepository->findByMail($validEmail))) {
-                    $err = "Hoops, your Email is already registered";
+                    $errorDTOList[] = new ErrorDTO('Success. Welcome abroad!');
+                    $userDTO->setName('');
+                    $userDTO->setEmail('');
+                } else {
+                    $errorDTOList[] = new ErrorDTO('Oops, your email is already registered!');
                 }
-            } else {
-                $err = 'Hoops, your Registration is not complete!';
             }
         }
-
-        $this->templateEngine->addParameter('error' , $err);
-        $this->templateEngine->addParameter('vName' , $nameUnverified);
-        $this->templateEngine->addParameter('vMail' , $emailUnverified);
-        $this->templateEngine->addParameter('eName' , $errName ?? null);
-        $this->templateEngine->addParameter('eMail' , $errMail ?? null);
-        $this->templateEngine->addParameter('ePass' , $errPass ?? null);
-
-        $this->templateEngine->display('registration.twig');    }
+        $this->templateEngine->addParameter('user', $userDTO);
+        $this->templateEngine->addParameter('vName', $userDTO->getName());
+        $this->templateEngine->addParameter('vMail', $userDTO->getEmail());
+        $this->templateEngine->addParameter('errors', $errorDTOList);
+        $this->templateEngine->display('registration.twig');
+    }
 }

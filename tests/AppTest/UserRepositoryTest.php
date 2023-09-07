@@ -6,57 +6,45 @@ use JsonException;
 use model\UserRepository;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Name = Validation
+ * Email = validation@validation.com
+ * Password = Xyz12345*
+ */
+
+
 class UserRepositoryTest extends TestCase
 {
-    /**
-     * @throws JsonException
-     */
-
    public function testFindByMail(): void
     {
-        $testFindByMail = new UserRepository();
-        $findByMailArray = $testFindByMail->findByMail('MeinName@mail.com');
+        $email = 'validation@validation.com';
 
-        self::assertSame('MeinName@mail.com', $findByMailArray['email']);
-        self::assertSame('MeinName', $findByMailArray['name']);
-        self::assertSame('$2y$10$T8s/vZhNXtT/1NwtfT04hOx7SfM2mfeIr2n5v/maEgdVMJRFOldRa', $findByMailArray['password']);
+        $ur = new UserRepository();
+        $return = $ur->findByMail($email);
 
+        self::assertSame($return->getName(), 'Validation');
+        self::assertSame($return->getEmail(), 'validation@validation.com');
+        self::assertSame($return->getPassword(), '$2y$10$tsiHgW8K4/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy');
     }
 
-    /**
-     * @throws JsonException
-     */
-
-    /**
     public function testInvalidMail(): void
     {
         $mailexception = new UserRepository();
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('invalid email');
-        $mailexception->findByMail('invalid-input');
+        $return = $mailexception->findByMail('invalid-input');
+        self::assertNull($return);
     }
-     *
 
-    /**
-     * @throws JsonException
-     */
     public function testCheckCombo(): void
     {
-        $testCheckCombo = new UserRepository();
-        $checkComboBoolean = $testCheckCombo->checkCombo('MeinName@mail.com', 'Xyz12345*');
-
-        self::assertTrue($checkComboBoolean);
+        $ur = new UserRepository();
+        $return = $ur->checkCombo('validation@validation.com', 'Xyz12345*');
+        self::assertTrue($return);
     }
 
-    /**
-     * @throws JsonException
-     */
     public function testInvalidCombo(): void
     {
-        $combo = new UserRepository();
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('invalid input or no combination found');
-
-        $combo->checkCombo('invalid-input', 'invalid-input');
+        $ur = new UserRepository();
+        $return = $ur->checkCombo('', '');
+        self::assertFalse($return);
     }
 }

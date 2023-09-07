@@ -42,6 +42,7 @@ class ComposerStaticInit94bb2a562f0f44b5ad5c5581f4a5429a
         'D' => 
         array (
             'DeepCopy\\' => 9,
+            'DTO\\' => 4,
         ),
         'C' => 
         array (
@@ -85,6 +86,10 @@ class ComposerStaticInit94bb2a562f0f44b5ad5c5581f4a5429a
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'DTO\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/DTO',
         ),
         'ControllerTest\\' => 
         array (

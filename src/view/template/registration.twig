@@ -22,6 +22,10 @@
 <p style="color: red">{{ eMail }}</p>
 <p style="color: red">{{ ePass }}</p>
 
+{% for error in errors %}
+    <p style="color: red">{{ error.message }}</p>
+{% endfor %}
+
 {% if not ePass %}
     <p style="color: red">{{ error }}</p>
 {% endif %}

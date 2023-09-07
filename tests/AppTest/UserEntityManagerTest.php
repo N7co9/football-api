@@ -2,65 +2,33 @@
 
 namespace AppTest;
 
-use JsonException;
-use model\UserRepository;
-use PHPUnit\Framework\TestCase;
+use DTO\UserDTO;
 use model\UserEntityManager;
+use model\UserMapper;
+use PHPUnit\Framework\TestCase;
 
 class UserEntityManagerTest extends TestCase
 {
-    private string $testData = __DIR__ . '/../testData/testUser.json';
-
-    /**
-     * @throws JsonException
-     */
-    public function tearDown(): void // deletes the dir after creating one in case its fresh
+    private string $testJsonPath = __DIR__ . '/../AppTest/UserData.json';
+    public function testSave(): void
     {
-        parent::tearDown();
-        if (file_exists($this->testData)) {
-            unlink($this->testData);
-        }
+        $newUser = new UserDTO();
+        $newUser->setName('NAME');
+        $newUser->setEmail('EMAIL');
+        $newUser->setPassword('PASSWORD');
 
-        $importJSON = json_decode(file_get_contents(__DIR__ . '/../../src/model/UserData.json'), true, 512, JSON_THROW_ON_ERROR); // removes the 'test' entry in our userdata from testing
-        foreach ($importJSON as $subKey => $subArray) {
-            if ($subArray['test'] === 'successful') {
-                unset($importJSON[$subKey]);
-            }
-        }
-        file_put_contents(__DIR__ . '/../../src/model/UserData.json', json_encode($importJSON, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
-    }
+        $em = new UserEntityManager(new UserMapper($this->testJsonPath));
+        $returnArray = $em->save($newUser);
 
-    /**
-     * @throws JsonException
-     */
-    public function testSave(): void // happy case testing -> dir exists
-    {
-        $mockArray = array(
-            'test' => 'successful');
-        $testMyData = new UserEntityManager(__DIR__ . '/../../src/model/UserData.json');
-        $testMyData->save($mockArray);
-        $importJSON = json_decode(file_get_contents(__DIR__ . '/../../src/model/UserData.json'), true, 512, JSON_THROW_ON_ERROR);
-        $count = -1;
-        foreach ($importJSON as $_) {
-            $count++;
+        foreach ($returnArray as $user) {
+            $testEntry = array(
+                "test-name" => $user->getName(),
+                "test-email" => $user->getEmail(),
+                "test-password" => $user->getPassword()
+            );
         }
-        self::assertArrayHasKey('test', $importJSON[$count]);
-    }
-
-    /**
-     * @throws JsonException
-     */
-    public function testSaveFileNotExi(): void // new dir testing
-    {
-        $mockArray = array(
-            'test' => 'successful');
-        $testMyData = new UserEntityManager($this->testData);
-        $testMyData->save($mockArray);
-        $importJSON = json_decode(file_get_contents($this->testData), true, 512, JSON_THROW_ON_ERROR);
-        $count = -1;
-        foreach ($importJSON as $_) {
-            $count++;
-        }
-        self::assertArrayHasKey('test', $importJSON[$count]);
+        self::assertSame($testEntry['test-name'], 'NAME');
+        self::assertSame($testEntry['test-email'], 'EMAIL');
+        self::assertSame($testEntry['test-password'], 'PASSWORD');
     }
 }
