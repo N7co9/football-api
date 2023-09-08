@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Team Overview </title>
+</head>
+<body>
+
+<h1>Kader</h1>
+
+{% for name, value in team %}
+    <UL>
+        <li><a href="/index.php?page=player&id={{ value.id }}">{{ value.name }}</a></li>
+    </UL>
+{% endfor %}
+</body>
+</html>
+

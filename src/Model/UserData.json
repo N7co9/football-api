@@ -1,0 +1,72 @@
+[
+    {
+        "name": "MeinName",
+        "email": "MeinName@mail.com",
+        "password": "$2y$10$T8s\/vZhNXtT\/1NwtfT04hOx7SfM2mfeIr2n5v\/maEgdVMJRFOldRa"
+    },
+    {
+        "name": "PeterPan",
+        "email": "peterpan@mail.com",
+        "password": "$2y$10$\/nRzXBKDp3ZNy0xpp8ooA.g7sUf50hFFRxP\/IxMO04aaIwjT6FYQu"
+    },
+    {
+        "name": "Validation",
+        "email": "validation@validation.com",
+        "password": "$2y$10$tsiHgW8K4\/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy"
+    },
+    {
+        "name": "Thomas Gottschalk",
+        "email": "thomas@gottschalk.de",
+        "password": "$2y$10$DnowSs5NjXHKWnJuoABWhOZQ4ss5FBJr7XtjCQbmtcQKhoH5NZ\/sS"
+    },
+    {
+        "name": "neun",
+        "email": "neu@neu.de",
+        "password": "$2y$10$Z\/4PB9YHMNXyAzrObJeaIuniBYi8U2xwaLbaGi5My2WXrIrv2du6."
+    },
+    {
+        "name": "lolol",
+        "email": "133@1233.de",
+        "password": "$2y$10$.cLsu0Q9Xc6QC7FxyVtJr.5TkRE\/H.SlzWBg1fDwBqVN16gTBOMbW"
+    },
+    {
+        "name": "New Person",
+        "email": "new@new.de",
+        "password": "$2y$10$1HT37oWhsyINUL2r1yQlSOYoV6wsttMNbghUSx8zXQuiQUupLQzOS"
+    },
+    {
+        "name": "qdqwdq",
+        "email": "sqcqw@djjd.de",
+        "password": "$2y$10$ZgyJVvI8FKCiJdz9hkZ0SeRh\/\/uPwLSyJ7Gp5i1kMrFhByokxrzwC"
+    },
+    {
+        "name": "MeinName",
+        "email": "validati3on@validation.com",
+        "password": "$2y$10$L16n40tlAMWmuZWFfGaLbOinZLSnXRt6tnrRHXHINwhRLVrDLnw62"
+    },
+    {
+        "name": "RegistrationController",
+        "email": "Controller@registration.com",
+        "password": "$2y$10$0m8NmotEnUXbSZE6aeGGxecP0pSQLak2.KJ2\/PVsL21Cp7OXsy6.."
+    },
+    {
+        "name": "finaltest",
+        "email": "controller@controller.de",
+        "password": "$2y$10$cgGHTJpyS\/rnxCX5y5bd2eovMWsP4ndE3X2X1yptUkXPL625CDXMu"
+    },
+    {
+        "name": "newtest",
+        "email": "lol@lol.dell",
+        "password": "$2y$10$9Z1DKfkb7KPNxIqPdQyIderI1oYrHDKtzQf3PSFnuUFlittuay\/Ua"
+    },
+    {
+        "name": "seventeen",
+        "email": "seventeen@seven.de",
+        "password": "$2y$10$4SVDLS9q\/T412415Kbxtz.t1gKm76pq.BMWnONI6TmCuVHKynIzeO"
+    },
+    {
+        "name": "MeinName",
+        "email": "valid44ation@validation.com",
+        "password": "$2y$10$A2g5KKfOo5AX8Y6kYv8hO.AKONk8VJdJnsdYR76w.wND2Qv.mpolS"
+    }
+]

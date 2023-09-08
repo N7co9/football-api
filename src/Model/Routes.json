@@ -1,0 +1,37 @@
+[
+  {
+    "url": "/",
+    "query": "",
+    "controller": "App\\Controller\\HomeController"
+  },
+  {
+    "url": "",
+    "query": "competition",
+    "controller": "App\\Controller\\TeamController"
+  },
+  {
+    "url": "",
+    "query": "team",
+    "controller": "App\\Controller\\ClubController"
+  },
+  {
+    "url": "",
+    "query": "player",
+    "controller": "App\\Controller\\PlayerController"
+  },
+  {
+    "url": "",
+    "query": "registration",
+    "controller": "App\\Controller\\RegistrationController"
+  },
+  {
+    "url": "",
+    "query": "login",
+    "controller": "App\\Controller\\SessionController"
+  },
+  {
+    "url": "",
+    "query": "logout",
+    "controller": "App\\Controller\\LogoutController"
+  }
+]

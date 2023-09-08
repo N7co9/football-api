@@ -14,14 +14,6 @@ class ComposerStaticInit94bb2a562f0f44b5ad5c5581f4a5429a
     );
 
     public static $prefixLengthsPsr4 = array (
-        'm' => 
-        array (
-            'model\\' => 6,
-        ),
-        'c' => 
-        array (
-            'core\\' => 5,
-        ),
         'T' => 
         array (
             'Twig\\' => 5,
@@ -35,34 +27,17 @@ class ComposerStaticInit94bb2a562f0f44b5ad5c5581f4a5429a
         array (
             'PhpParser\\' => 10,
         ),
-        'M' => 
-        array (
-            'MyProject\\' => 10,
-        ),
         'D' => 
         array (
             'DeepCopy\\' => 9,
-            'DTO\\' => 4,
-        ),
-        'C' => 
-        array (
-            'ControllerTest\\' => 15,
         ),
         'A' => 
         array (
-            'AppTest\\' => 8,
+            'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'model\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/model',
-        ),
-        'core\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/core',
-        ),
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
@@ -79,25 +54,13 @@ class ComposerStaticInit94bb2a562f0f44b5ad5c5581f4a5429a
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
-        'MyProject\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/controller',
-        ),
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
-        'DTO\\' => 
+        'App\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/DTO',
-        ),
-        'ControllerTest\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/tests/ControllerTest',
-        ),
-        'AppTest\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/tests/AppTest',
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 

@@ -6,15 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'model\\' => array($baseDir . '/src/model'),
-    'core\\' => array($baseDir . '/src/core'),
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
-    'MyProject\\' => array($baseDir . '/src/controller'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
-    'DTO\\' => array($baseDir . '/src/DTO'),
-    'ControllerTest\\' => array($baseDir . '/tests/ControllerTest'),
-    'AppTest\\' => array($baseDir . '/tests/AppTest'),
+    'App\\' => array($baseDir . '/src'),
 );
