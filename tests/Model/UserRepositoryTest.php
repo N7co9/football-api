@@ -1,9 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace AppTest;
+namespace Model;
 
-use JsonException;
-use model\UserRepository;
+use App\Model\UserRepository;
 use PHPUnit\Framework\TestCase;
 
 /**

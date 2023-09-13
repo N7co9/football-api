@@ -14,7 +14,6 @@ class ControllerMapper
 
     public function JsonToDTO(): array
     {
-
         $data = json_decode(file_get_contents($this->jsonPath), true, 512, JSON_THROW_ON_ERROR);
         $controllerDTOlist = [];
         foreach ($data as $entryData) {

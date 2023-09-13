@@ -11,6 +11,3 @@ error_reporting(E_ALL);
 $provider = new \App\Controller\ControllerProvider();
 $data = $provider->provide();
 $data->display();
-
-
-

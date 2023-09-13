@@ -1,15 +1,15 @@
 <?php
 
-namespace AppTest;
+namespace Model;
 
 use App\Model\DTO\UserDTO;
-use model\UserEntityManager;
-use model\UserMapper;
+use App\Model\UserEntityManager;
+use App\Model\UserMapper;
 use PHPUnit\Framework\TestCase;
 
 class UserEntityManagerTest extends TestCase
 {
-    private string $testJsonPath = __DIR__ . '/../AppTest/UserData.json';
+    private string $testJsonPath = __DIR__ . '/../Model/UserData.json';
     public function testSave(): void
     {
         $newUser = new UserDTO();

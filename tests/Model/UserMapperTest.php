@@ -1,15 +1,15 @@
 <?php
 
-namespace ModelTest;
+namespace Model;
 
 use App\Model\DTO\UserDTO;
-use model\UserMapper;
+use App\Model\UserMapper;
 use PHPUnit\Framework\TestCase;
 
 class UserMapperTest extends TestCase
 {
     private UserMapper $userMapper;
-    private string $testJsonPath = __DIR__ . '/../AppTest/UserData.json';
+    private string $testJsonPath = __DIR__ . '/../Model/UserData.json';
 
     public function setUp(): void
     {

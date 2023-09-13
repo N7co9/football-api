@@ -26,7 +26,7 @@ class PlayerController implements ControllerInterface
      */
     public function dataConstruct(): object
     {
-        $player_id = $_GET['id'];
+        $player_id = $_GET['id'] ?? '1337';
         $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/persons/' . $player_id);
         $this->templateEngine->addParameter('player', $result);
         $this->templateEngine->setTemplate('player.twig');

@@ -9,4 +9,8 @@ class ErrorDTO
     )
     {
     }
+
+    public function getMessage(){
+        return $this->message;
+    }
 }

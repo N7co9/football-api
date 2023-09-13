@@ -10,12 +10,11 @@ class TeamController implements ControllerInterface
 
     public function __construct(private readonly View $templateEngine)
     {
-
     }
 
     public function dataConstruct(): object
     {
-        $league_id = $_GET['name'];
+        $league_id = $_GET['name'] ?? 'BSA';
         $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/competitions/' . $league_id . '/standings');
 
         $this->templateEngine->addParameter('standings', $result['standings']);

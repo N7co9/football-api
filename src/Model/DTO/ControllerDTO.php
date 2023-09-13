@@ -4,8 +4,8 @@ namespace App\Model\DTO;
 
 class ControllerDTO
 {
-    private string $controller;
-    private string $query;
+    public string $controller;
+    public string $query;
 
     public function getController(): string
     {
