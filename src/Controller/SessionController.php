@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Core\Container;
 use App\Core\Redirect;
 use App\Core\View;
 use App\Model\UserEntityManager;
@@ -11,9 +12,11 @@ use App\Model\UserRepository;
 
 class SessionController implements ControllerInterface
 {
-    public function __construct(private readonly View $templateEngine, private readonly UserEntityManager $userEntityManager, private readonly UserRepository $userRepository, private readonly Redirect $redirect)
+    public function __construct(private readonly Container $container)
     {
-        $_ = $this->userEntityManager;
+        $this->templateEngine = $this->container->get(View::class);
+        $this->userRepository = $this->container->get(UserRepository::class);
+        $this->redirect = $this->container->get(Redirect::class);
     }
 
     public function dataConstruct(): object

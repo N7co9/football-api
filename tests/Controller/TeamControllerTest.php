@@ -2,21 +2,20 @@
 
 namespace Controller;
 
-use App\Controller\PlayerController;
+
 use App\Controller\TeamController;
-use App\Core\View;
+use App\Core\Container;
 use PHPUnit\Framework\TestCase;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 
 class TeamControllerTest extends TestCase
 {
     public function testDataConstruct(): void
     {
-        $template = new View(__DIR__ . '/../../src/View/template');
-        $construct = new TeamController($template);
+        $container = new \App\Core\Container();
+        $dependencyprovider = new \App\Core\DependencyProvider();
+        $dependencyprovider->provide($container);
+        $construct = new TeamController($container);
 
         $output = $construct->dataConstruct();
 

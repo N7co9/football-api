@@ -3,6 +3,7 @@
 namespace Controller;
 
 use App\Controller\ClubController;
+use App\Core\Container;
 use App\Core\View;
 use PHPUnit\Framework\TestCase;
 use Twig\Error\LoaderError;
@@ -19,8 +20,10 @@ class ClubControllerTest extends TestCase
      */
     public function testDataConstruct(): void
     {
-        $template = new View(__DIR__ . '/../../src/View/template');
-        $construct = new ClubController($template);
+        $container = new \App\Core\Container();
+        $dependencyprovider = new \App\Core\DependencyProvider();
+        $dependencyprovider->provide($container);
+        $construct = new ClubController($container);
 
         $output = $construct->dataConstruct();
 

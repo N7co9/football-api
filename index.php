@@ -8,6 +8,21 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
-$provider = new \App\Controller\ControllerProvider();
-$data = $provider->provide();
+
+$container = new \App\Core\Container();
+$dependencyprovider = new \App\Core\DependencyProvider();
+$dependencyprovider->provide($container);
+$provider = new \App\Core\ControllerProvider();
+$page = $_GET['page'] ?? '';
+
+foreach ($provider->getList() as $key => $controllerClass) {
+    if ($key === $page) {
+        $controllerCheck = new $controllerClass($container);
+        if ($controllerCheck instanceof \App\Controller\ControllerInterface) {
+            $controller = $controllerCheck;
+            break;
+        }
+    }
+}
+$data = $controller->dataConstruct();
 $data->display();

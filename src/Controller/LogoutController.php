@@ -3,29 +3,21 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Core\Container;
 use App\Core\Redirect;
 use App\Core\View;
-use App\Model\UserEntityManager;
-use App\Model\UserRepository;
-use JetBrains\PhpStorm\NoReturn;
 
-class LogoutController
+class LogoutController implements ControllerInterface
 {
-    public function __construct
-    (private readonly View              $_,
-     private readonly UserEntityManager $__,
-     private readonly UserRepository    $___,
-     private readonly Redirect $redirect
-    )
-
+    public function __construct(private readonly Container $container)
     {
+        $this->redirect = $this->container->get(Redirect::class);
     }
 
-    public function dataConstruct(): object
+    public function dataConstruct() : void
     {
         session_start();
         session_destroy();
         $this->redirect->to('');
-        return $this->redirect;
     }
 }

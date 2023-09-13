@@ -5,19 +5,20 @@ namespace App\Core;
 
 class Container
 {
-    private $dependencies = [];
+    private array $object = [];
 
-    public function set(string $key, callable $resolver)
+    public function set(string $class, object $object): void
     {
-        $this->dependencies[$key] = $resolver;
+        $this->object[$class] = $object;
     }
 
-    public function get(string $key)
+    public function get(string $class): object
     {
-        if (isset($this->dependencies[$key])) {
-            return $this->dependencies[$key]();
-        }
+        return $this->object[$class];
+    }
 
-        throw new \Exception("Dependency not found: $key");
+    public function getList(): array
+    {
+        return $this->object;
     }
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Core\Container;
 use App\Core\View;
 use JsonException;
 use Twig\Error\LoaderError;
@@ -13,9 +14,9 @@ use Twig\Environment;
 
 class ClubController implements ControllerInterface
 {
-    public function __construct(private readonly \App\Core\View $templateEngine)
+    public function __construct(private readonly Container $container)
     {
-
+        $this->templateEngine = $this->container->get(View::class);
     }
 
     /**

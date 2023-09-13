@@ -3,7 +3,7 @@
 namespace Controller;
 
 use App\Controller\HomeController;
-use App\Core\View;
+use App\Core\Container;
 use PHPUnit\Framework\TestCase;
 
 
@@ -11,8 +11,10 @@ class HomeControllerTest extends TestCase
 {
     public function testDataConstruct(): void
     {
-        $template = new View(__DIR__ . '/../../src/View/template');
-        $construct = new HomeController($template);
+        $container = new \App\Core\Container();
+        $dependencyprovider = new \App\Core\DependencyProvider();
+        $dependencyprovider->provide($container);
+        $construct = new HomeController($container);
 
         $output = $construct->dataConstruct();
 

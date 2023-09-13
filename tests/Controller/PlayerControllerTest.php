@@ -3,19 +3,18 @@
 namespace Controller;
 
 use App\Controller\PlayerController;
-use App\Core\View;
+use App\Core\Container;
 use PHPUnit\Framework\TestCase;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 
 class PlayerControllerTest extends TestCase
 {
     public function testDataConstruct(): void
     {
-        $template = new View(__DIR__ . '/../../src/View/template');
-        $construct = new PlayerController($template);
+        $container = new \App\Core\Container();
+        $dependencyprovider = new \App\Core\DependencyProvider();
+        $dependencyprovider->provide($container);
+        $construct = new PlayerController($container);
 
         $output = $construct->dataConstruct();
 

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Core\Container;
+use App\Core\Redirect;
 use App\Model\DTO\ErrorDTO;
 use App\Model\DTO\UserDTO;
 use App\Core\View;
@@ -10,8 +12,11 @@ use App\Model\UserRepository;
 
 class RegistrationController implements ControllerInterface
 {
-    public function __construct(private readonly View $templateEngine, private readonly UserEntityManager $userEntityManager, private readonly UserRepository $userRepository)
+    public function __construct(private readonly Container $container)
     {
+        $this->templateEngine = $this->container->get(View::class);
+        $this->userRepository = $this->container->get(UserRepository::class);
+        $this->userEntityManager = $this->container->get(UserEntityManager::class);
     }
 
     public function dataConstruct(): object
