@@ -10,20 +10,18 @@ use PHPUnit\Framework\TestCase;
  * Email = validation@validation.com
  * Password = Xyz12345*
  */
-
-
 class UserRepositoryTest extends TestCase
 {
-   public function testFindByMail(): void
+    public function testFindByMail(): void
     {
         $email = 'validation@validation.com';
 
         $ur = new UserRepository();
         $return = $ur->findByMail($email);
 
-        self::assertSame($return->getName(), 'Validation');
-        self::assertSame($return->getEmail(), 'validation@validation.com');
-        self::assertSame($return->getPassword(), '$2y$10$tsiHgW8K4/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy');
+        self::assertSame($return->name, 'Validation');
+        self::assertSame($return->email, 'validation@validation.com');
+        self::assertSame($return->password, '$2y$10$tsiHgW8K4/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy');
     }
 
     public function testInvalidMail(): void

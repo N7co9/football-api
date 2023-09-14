@@ -15,6 +15,7 @@ $dependencyprovider->provide($container);
 $provider = new \App\Core\ControllerProvider();
 $page = $_GET['page'] ?? '';
 
+
 foreach ($provider->getList() as $key => $controllerClass) {
     if ($key === $page) {
         $controllerCheck = new $controllerClass($container);

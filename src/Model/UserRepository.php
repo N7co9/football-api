@@ -10,13 +10,13 @@ class UserRepository
     /**
      * @throws JsonException
      */
-    public function findByMail($mail): ?userDTO
+    public function findByMail(string $mail): ?usERdtO
     {
         $UserMapper = new UserMapper();
         $UserDTOList = $UserMapper->JsonToDTO();
 
         foreach ($UserDTOList as $userDTO) {
-            if ($userDTO->getEmail() === $mail) {
+            if ($userDTO->email === $mail) {
                 return $userDTO;
             }
         }
@@ -26,10 +26,10 @@ class UserRepository
     /**
      * @throws JsonException
      */
-    public function checkCombo(string $mail, string $password): bool
+    public function checkCombo(string $mail, string $password): bool // implement DTO
     {
         $userDTO = $this->findByMail($mail);
-        if ($userDTO instanceof userDTO && password_verify($password, $userDTO->getPassword()))
+        if ($userDTO instanceof userDTO && password_verify($password, $userDTO->password))
             return true;
 
         return false;

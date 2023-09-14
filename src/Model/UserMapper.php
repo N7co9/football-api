@@ -13,20 +13,16 @@ class UserMapper
     {
     }
 
-    /**
-     * @return userDTO[]
-     */
     public function JsonToDTO(): array
     {
-
         $data = json_decode(file_get_contents($this->jsonPath), true, 512, JSON_THROW_ON_ERROR);
         $userDTOList = [];
 
         foreach ($data as $entryData) {
             $userDTO = new UserDTO();
-            $userDTO->setEmail($entryData['email']);
-            $userDTO->setPassword($entryData['password']);
-            $userDTO->setName($entryData['name']);
+            $userDTO->email = ($entryData['email']);
+            $userDTO->password = ($entryData['password']);
+            $userDTO->name = ($entryData['name']);
             $userDTOList[] = $userDTO;
         }
         return $userDTOList;
@@ -41,9 +37,9 @@ class UserMapper
         foreach ($userDTOList as $userDTO) {
 
             $entries[] = [
-                'name' => $userDTO->getName(),
-                'email' => $userDTO->getEmail(),
-                'password' => $userDTO->getPassword()
+                'name' => $userDTO->name,
+                'email' => $userDTO->email,
+                'password' => $userDTO->password
             ];
         }
         $encoded = json_encode($entries, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);

@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Core;
-#RedirectMock
-class RedirectSpy implements RedirectInterface
-{
-    public string $location = '';
 
-    public function to(string $location): void
+class RedirectSpy
+{
+    public array $capturedHeaders = [];
+
+    public function sendHeader(string $header)
     {
-        $this->location = $location;
+        $this->capturedHeaders[] = $header;
     }
 }

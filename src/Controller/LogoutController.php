@@ -5,16 +5,17 @@ namespace App\Controller;
 
 use App\Core\Container;
 use App\Core\Redirect;
-use App\Core\View;
 
 class LogoutController implements ControllerInterface
 {
-    public function __construct(private readonly Container $container)
+    private Redirect $redirect;
+
+    public function __construct(Container $container)
     {
-        $this->redirect = $this->container->get(Redirect::class);
+        $this->redirect = $container->get(Redirect::class);
     }
 
-    public function dataConstruct() : void
+    public function dataConstruct(): void
     {
         session_start();
         session_destroy();

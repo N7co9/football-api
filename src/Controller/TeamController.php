@@ -8,16 +8,18 @@ use App\Core\View;
 
 class TeamController implements ControllerInterface
 {
+    private View $templateEngine;
+    public string $league_id;
 
-    public function __construct(private readonly Container $container)
+    public function __construct(Container $container)
     {
-        $this->templateEngine = $this->container->get(View::class);
+        $this->templateEngine = $container->get(View::class);
+        $this->league_id = $_GET['name'] ?? '';
     }
 
     public function dataConstruct(): object
     {
-        $league_id = $_GET['name'] ?? 'BSA';
-        $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/competitions/' . $league_id . '/standings');
+        $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/competitions/' . $this->league_id . '/standings');
 
         $this->templateEngine->addParameter('standings', $result['standings']);
         $this->templateEngine->setTemplate('competition.twig');

@@ -8,15 +8,16 @@ use App\Controller\ApiHandling;
 
 class ApiHandlingTest extends TestCase
 {
-    /**
-     * @test
-     * @throws JsonException
-     */
-    public function makeApiRequestTest() : void
+    public function setUp(): void
     {
-        $url = 'http://api.football-data.org/v4/competitions';
-        $ApiHandling = new ApiHandling();
-        $response = $ApiHandling::makeApiRequest($url);
+        $this->url = 'http://api.football-data.org/v4/competitions';
+        $this->ApiHandling = new ApiHandling();
+        parent::setUp();
+    }
+
+    public function testMakeApiRequest(): void
+    {
+        $response = $this->ApiHandling::makeApiRequest($this->url);
 
         self::assertSame(13, $response['count']);
         self::assertSame('Nico', $response['filters']['client']);

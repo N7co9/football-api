@@ -2,12 +2,8 @@
 
 namespace App\Core;
 
-use mysql_xdevapi\SqlStatementResult;
-use PHPUnit\TextUI\Configuration\File;
-use PHPUnit\Util\Xml\Loader;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use Twig\TwigFunction;
 
 class View implements ViewInterface
 {
@@ -30,7 +26,8 @@ class View implements ViewInterface
         echo $this->twig->render($this->tpl, $this->parameters);
     }
 
-    public function setTemplate(string $tpl) {
+    public function setTemplate(string $tpl)
+    {
         $this->tpl = $tpl;
     }
 
@@ -38,7 +35,8 @@ class View implements ViewInterface
     {
         return $this->parameters;
     }
-    public function getTpl() : string
+
+    public function getTpl(): string
     {
         return $this->tpl;
     }

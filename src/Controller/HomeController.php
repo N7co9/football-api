@@ -8,12 +8,14 @@ use App\Core\View;
 
 class HomeController implements ControllerInterface
 {
-    public function __construct(private readonly Container $container)
+    private View $templateEngine;
+
+    public function __construct(Container $container)
     {
-        $this->templateEngine = $this->container->get(View::class);
+        $this->templateEngine = $container->get(View::class);
     }
 
-    public function dataConstruct() : object
+    public function dataConstruct(): object
     {
         $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/competitions');
         $this->templateEngine->setTemplate('home.twig');

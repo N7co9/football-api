@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Core\Container;
-use App\Core\Redirect;
 use App\Model\DTO\ErrorDTO;
 use App\Model\DTO\UserDTO;
 use App\Core\View;
@@ -12,35 +11,39 @@ use App\Model\UserRepository;
 
 class RegistrationController implements ControllerInterface
 {
-    public function __construct(private readonly Container $container)
+    private UserEntityManager $userEntityManager;
+    private View $templateEngine;
+    private userRepository $userRepository;
+
+    public function __construct(Container $container)
     {
-        $this->templateEngine = $this->container->get(View::class);
-        $this->userRepository = $this->container->get(UserRepository::class);
-        $this->userEntityManager = $this->container->get(UserEntityManager::class);
+        $this->templateEngine = $container->get(View::class);
+        $this->userRepository = $container->get(UserRepository::class);
+        $this->userEntityManager = $container->get(UserEntityManager::class);
     }
 
     public function dataConstruct(): object
     {
         $userDTO = new UserDTO();
-        $userDTO->setName($_POST['name'] ?? '');
-        $userDTO->setEmail($_POST['mail'] ?? '');
-        $userDTO->setPassword($_POST['password'] ?? '');
+        $userDTO->name = ($_POST['name'] ?? '');
+        $userDTO->email = ($_POST['mail'] ?? '');
+        $userDTO->password = ($_POST['password'] ?? '');
         $errorDTOList = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            if (empty($userDTO->getName()) || !preg_match("/^[a-zA-Z-' ]*$/", $userDTO->getName())) {
+            if (empty($userDTO->name) || !preg_match("/^[a-zA-Z-' ]*$/", $userDTO->name)) {
                 $errorDTOList[] = new ErrorDTO('Oops, your name doesn\'t look right');
             }
 
-            if (empty($userDTO->getEmail()) || !filter_var($userDTO->getEmail(), FILTER_VALIDATE_EMAIL)) {
+            if (empty($userDTO->email) || !filter_var($userDTO->email, FILTER_VALIDATE_EMAIL)) {
                 $errorDTOList[] = new ErrorDTO('Oops, your email doesn\'t look right');
             }
 
-            if (!empty($userDTO->getPassword() && preg_match('@[A-Z]@', $userDTO->getPassword()) && preg_match('@[a-z]@', $userDTO->getPassword()) &&
-                preg_match('@\d@', $userDTO->getPassword()) && preg_match('@\W@', $userDTO->getPassword()) &&
-                (strlen($userDTO->getPassword()) > 6))) {
-                $validPassword = password_hash(password: $userDTO->getPassword(), algo: PASSWORD_DEFAULT);
+            if (!empty($userDTO->password && preg_match('@[A-Z]@', $userDTO->password) && preg_match('@[a-z]@', $userDTO->password) &&
+                preg_match('@\d@', $userDTO->password) && preg_match('@\W@', $userDTO->password) &&
+                (strlen($userDTO->password) > 6))) {
+                $validPassword = password_hash(password: $userDTO->password, algo: PASSWORD_DEFAULT);
             } else {
                 $validPassword = '';
                 $errorDTOList[] = new ErrorDTO('Oops, your password doesn\'t look right!');
@@ -48,15 +51,15 @@ class RegistrationController implements ControllerInterface
 
             if (empty($errorDTOList)) {
                 $newUser = new UserDTO();
-                $newUser->setName($userDTO->getName() ?? '');
-                $newUser->setEmail($userDTO->getEmail() ?? '');
-                $newUser->setPassword($validPassword);
+                $newUser->name = ($userDTO->name ?? '');
+                $newUser->email = ($userDTO->email ?? '');
+                $newUser->password = ($validPassword);
 
-                if (empty($this->userRepository->findByMail($userDTO->getEmail()) && !empty($userDTO->getPassword()))) {
+                if (empty($this->userRepository->findByMail($userDTO->email) && !empty($userDTO->password))) {
                     $this->userEntityManager->save($newUser);
                     $errorDTOList[] = new ErrorDTO('Success. Welcome abroad!');
-                    $userDTO->setName('');
-                    $userDTO->setEmail('');
+                    $userDTO->password = ('');
+                    $userDTO->email = ('');
                 } else {
                     $errorDTOList[] = new ErrorDTO('Oops, your email is already registered!');
                 }
@@ -64,8 +67,8 @@ class RegistrationController implements ControllerInterface
         }
         $this->templateEngine->setTemplate('registration.twig');
         $this->templateEngine->addParameter('user', $userDTO);
-        $this->templateEngine->addParameter('vName', $userDTO->getName());
-        $this->templateEngine->addParameter('vMail', $userDTO->getEmail());
+        $this->templateEngine->addParameter('vName', $userDTO->name);
+        $this->templateEngine->addParameter('vMail', $userDTO->email);
         $this->templateEngine->addParameter('errors', $errorDTOList);
 
         return $this->templateEngine;

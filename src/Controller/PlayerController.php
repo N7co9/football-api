@@ -13,21 +13,18 @@ use Twig\Error\SyntaxError;
 
 class PlayerController implements ControllerInterface
 {
-    public function __construct(private readonly Container $container)
+    private View $templateEngine;
+    public string $player_id;
+
+    public function __construct(Container $container)
     {
-        $this->templateEngine = $this->container->get(View::class);
+        $this->templateEngine = $container->get(View::class);
+        $this->player_id = $_GET['id'] ?? '';
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     * @throws JsonException
-     */
     public function dataConstruct(): object
     {
-        $player_id = $_GET['id'] ?? '1337';
-        $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/persons/' . $player_id);
+        $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/persons/' . $this->player_id);
         $this->templateEngine->addParameter('player', $result);
         $this->templateEngine->setTemplate('player.twig');
 

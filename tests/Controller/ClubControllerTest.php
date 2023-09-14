@@ -4,30 +4,31 @@ namespace Controller;
 
 use App\Controller\ClubController;
 use App\Core\Container;
-use App\Core\View;
+use App\Core\DependencyProvider;
 use PHPUnit\Framework\TestCase;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
+
 
 class ClubControllerTest extends TestCase
 {
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     * @throws \JsonException
-     */
+    protected function setUp(): void
+    {
+        $containerBuilder = new Container();
+        $dependencyProvider = new DependencyProvider();
+        $dependencyProvider->provide($containerBuilder);
+        $this->container = $containerBuilder;
+        $this->construct = new ClubController($this->container);
+        $this->construct->team_id = '3';
+
+        parent::setUp();
+    }
+
     public function testDataConstruct(): void
     {
-        $container = new \App\Core\Container();
-        $dependencyprovider = new \App\Core\DependencyProvider();
-        $dependencyprovider->provide($container);
-        $construct = new ClubController($container);
-
-        $output = $construct->dataConstruct();
+        $output = $this->construct->dataConstruct();
 
         self::assertSame('team.twig', $output->getTpl());
+        self::assertSame(165, $output->getParameters()['team'][0]['id']);
+        self::assertSame('Germany', $output->getParameters()['team'][0]['nationality']);
         self::assertArrayHasKey('team', $output->getParameters());
     }
 }

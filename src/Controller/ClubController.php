@@ -14,21 +14,18 @@ use Twig\Environment;
 
 class ClubController implements ControllerInterface
 {
-    public function __construct(private readonly Container $container)
+    private View $templateEngine;
+    public string $team_id;
+
+    public function __construct(Container $container)
     {
-        $this->templateEngine = $this->container->get(View::class);
+        $this->templateEngine = $container->get(View::class);
+        $this->team_id = $_GET['id'] ?? '';
     }
 
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     * @throws JsonException
-     */
     public function dataConstruct(): object
     {
-        $team_id = $_GET['id'] ?? '';
-        $result = ApiHandling::makeApiRequest(url: 'http://api.football-data.org/v4/teams/' . $team_id);
+        $result = ApiHandling::makeApiRequest(url: 'http://api.football-data.org/v4/teams/' . $this->team_id);
         $this->templateEngine->addParameter('team', $result['squad'] ?? '');
         $this->templateEngine->setTemplate('team.twig');
 
