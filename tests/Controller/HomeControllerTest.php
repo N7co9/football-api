@@ -28,8 +28,7 @@ class HomeControllerTest extends TestCase
 
 
         self::assertSame('home.twig', $output->getTpl());
-        self::assertSame('BSA', $output->getParameters()['competitions'][0]['code']);
-        self::assertSame(2013, $output->getParameters()['competitions'][0]['id']);
+        self::assertSame('BSA', $output->getParameters()['competitions'][0]->competitionCode);
         self::assertArrayHasKey('competitions', $output->getParameters());
         self::assertArrayHasKey('user', $output->getParameters());
     }

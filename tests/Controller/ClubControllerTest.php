@@ -17,18 +17,24 @@ class ClubControllerTest extends TestCase
         $dependencyProvider->provide($containerBuilder);
         $this->container = $containerBuilder;
         $this->construct = new ClubController($this->container);
-        $this->construct->team_id = '3';
 
         parent::setUp();
+    }
+    protected function tearDown(): void
+    {
+        $_GET = [];
+        parent::tearDown();
     }
 
     public function testDataConstruct(): void
     {
+        $_GET['id'] = '3';
+
         $output = $this->construct->dataConstruct();
 
         self::assertSame('team.twig', $output->getTpl());
-        self::assertSame(165, $output->getParameters()['team'][0]['id']);
-        self::assertSame('Germany', $output->getParameters()['team'][0]['nationality']);
+        self::assertSame('165', $output->getParameters()['team'][0]->teamId);
+        self::assertSame('Niklas Lomb', $output->getParameters()['team'][0]->teamName);
         self::assertArrayHasKey('team', $output->getParameters());
     }
 }

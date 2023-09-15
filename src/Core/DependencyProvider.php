@@ -17,6 +17,7 @@ class DependencyProvider
 
         $container->set(UserRepository::class, new UserRepository());
         $container->set(UserDTO::class, new UserDTO());
+        $container->set(ApiMapper::class, new ApiMapper());
 
         $container->set(UserEntityManager::class, new UserEntityManager(new UserMapper()));
     }

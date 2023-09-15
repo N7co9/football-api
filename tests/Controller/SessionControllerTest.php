@@ -20,7 +20,6 @@ class SessionControllerTest extends TestCase
 
         parent::setUp();
     }
-
     public function testDataConstructSuccess(): void
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';

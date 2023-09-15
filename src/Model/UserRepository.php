@@ -10,7 +10,7 @@ class UserRepository
     /**
      * @throws JsonException
      */
-    public function findByMail(string $mail)
+    public function findByMail(string $mail) : ?UserDTO
     {
         $UserMapper = new UserMapper();
         $UserDTOList = $UserMapper->JsonToDTO();

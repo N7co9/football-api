@@ -7,9 +7,9 @@
 
 <h1>Kader</h1>
 
-{% for name, value in team %}
+{% for tea in team %}
     <UL>
-        <li><a href="/index.php?page=player&id={{ value.id }}">{{ value.name }}</a></li>
+        <li><a href="/index.php?page=player&id={{ tea.teamId }}">{{ tea.teamName }}</a></li>
     </UL>
 {% endfor %}
 </body>

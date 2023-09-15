@@ -18,19 +18,19 @@
         <th>Goals Against</th>
         <th>Goal Difference</th>
     </tr>
-    {% for standing in standings.0.table %}
+    {% for standing in standings %}
         <tr>
-            <td> {{ standing.position }} </td>
-            <td><img src="{{ standing.team.crest }}" height="22" width="22"> <a
-                        href="/index.php?page=team&id={{ standing.team.id }}"> {{ standing.team.name }} </a></td>
-            <td> {{ standing.playedGames }} </td>
-            <td> {{ standing.won }} </td>
-            <td> {{ standing.draw }} </td>
-            <td> {{ standing.lost }} </td>
-            <td> {{ standing.points }} </td>
-            <td> {{ standing.goalsFor }} </td>
-            <td> {{ standing.goalsAgainst }} </td>
-            <td> {{ standing.goalDifference }} </td>
+            <td> {{ standing.standingPosition }} </td>
+            <td><img src="{{ standing.standingCrest }}" height="22" width="22"> <a
+                        href="/index.php?page=team&id={{ standing.standingTeamId }}"> {{ standing.standingTeamName }} </a></td>
+            <td> {{ standing.standingPlayedGames }} </td>
+            <td> {{ standing.standingWon }} </td>
+            <td> {{ standing.standingDraw }} </td>
+            <td> {{ standing.standingLost }} </td>
+            <td> {{ standing.standingPoints }} </td>
+            <td> {{ standing.standingGoalsFor }} </td>
+            <td> {{ standing.standingGoalsAgainst }} </td>
+            <td> {{ standing.standingGoalDifference }} </td>
         </tr>
     {% endfor %}
 </table>

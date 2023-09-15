@@ -19,18 +19,22 @@ class TeamControllerTest extends TestCase
 
         $this->container = $containerBuilder;
         $this->construct = new TeamController($this->container);
-        $this->construct->league_id = 'BSA'; // Random league_id for testing purposes
-
         parent::setUp();
+    }
+    protected function tearDown(): void
+    {
+        $_GET = [];
+        parent::tearDown();
     }
 
     public function testDataConstruct(): void
     {
+        $_GET['name'] = 'BSA';
         $output = $this->construct->dataConstruct();
-
         self::assertSame('competition.twig', $output->getTpl());
-        self::assertSame('TOTAL', $output->getParameters()['standings'][0]['type']);
-        self::assertSame(1770, $output->getParameters()['standings'][0]['table'][0]['team']['id']);
+        self::assertSame('1', $output->getParameters()['standings'][0]->standingPosition);
+        self::assertSame('1770', $output->getParameters()['standings'][0]->standingTeamId);
+        self::assertSame('Botafogo FR', $output->getParameters()['standings'][0]->standingTeamName);
         self::assertArrayHasKey('standings', $output->getParameters());
     }
 }
