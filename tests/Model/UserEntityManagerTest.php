@@ -16,7 +16,7 @@ class UserEntityManagerTest extends TestCase
         $newUser = new UserDTO();
         $newUser->name = ('NAME');
         $newUser->email = ('EMAIL');
-        $newUser->password = ('PASSWORD');
+        $newUser->passwort = ('PASSWORT');
 
         $em = new UserEntityManager(new UserMapper($this->testJsonPath));
         $returnArray = $em->save($newUser);
@@ -25,11 +25,11 @@ class UserEntityManagerTest extends TestCase
             $testEntry = array(
                 "test-name" => $user->name,
                 "test-email" => $user->email,
-                "test-password" => $user->password
+                "test-passwort" => $user->passwort
             );
         }
         self::assertSame($testEntry['test-name'], 'NAME');
         self::assertSame($testEntry['test-email'], 'EMAIL');
-        self::assertSame($testEntry['test-password'], 'PASSWORD');
+        self::assertSame($testEntry['test-passwort'], 'PASSWORT');
     }
 }

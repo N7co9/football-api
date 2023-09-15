@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use App\Model\DTO\UserDTO;
 use App\Model\UserRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +22,7 @@ class UserRepositoryTest extends TestCase
 
         self::assertSame($return->name, 'Validation');
         self::assertSame($return->email, 'validation@validation.com');
-        self::assertSame($return->password, '$2y$10$tsiHgW8K4/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy');
+        self::assertSame($return->passwort, '$2y$10$tsiHgW8K4/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy');
     }
 
     public function testInvalidMail(): void
@@ -31,17 +32,23 @@ class UserRepositoryTest extends TestCase
         self::assertNull($return);
     }
 
-    public function testCheckCombo(): void
+    public function testCheckLoginCredentials(): void
     {
         $ur = new UserRepository();
-        $return = $ur->checkCombo('validation@validation.com', 'Xyz12345*');
+        $dto = new UserDTO();
+        $dto->email = 'validation@validation.com';
+        $dto->passwort = 'Xyz12345*';
+        $return = $ur->checkLoginCredentials($dto);
         self::assertTrue($return);
     }
 
-    public function testInvalidCombo(): void
+    public function testInvalidLoginCredentials(): void
     {
         $ur = new UserRepository();
-        $return = $ur->checkCombo('', '');
+        $dto = new UserDTO();
+        $dto->email = 'INVALID';
+        $dto->passwort = 'INVALID';
+        $return = $ur->checkLoginCredentials($dto);
         self::assertFalse($return);
     }
 }

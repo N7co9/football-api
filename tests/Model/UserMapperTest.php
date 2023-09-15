@@ -23,12 +23,12 @@ class UserMapperTest extends TestCase
             [
                 'name' => '1',
                 'email' => '2',
-                'password' => '3',
+                'passwort' => '3',
             ],
             [
                 'name' => '',
                 'email' => '',
-                'password' => ''
+                'passwort' => ''
             ]
         );
 
@@ -40,7 +40,7 @@ class UserMapperTest extends TestCase
         $this->assertContainsOnlyInstancesOf(UserDTO::class, $userDTOList);
         $this->assertSame($userDTOList[0]->name, '1');
         $this->assertSame($userDTOList[0]->email, '2');
-        $this->assertSame($userDTOList[0]->password, '3');
+        $this->assertSame($userDTOList[0]->passwort, '3');
     }
 
     public function testDTO2Json(): void
@@ -50,13 +50,13 @@ class UserMapperTest extends TestCase
         $userDTO1 = new UserDTO();
         $userDTO1->name = ('User 1 Name');
         $userDTO1->email = ('user1@example.com');
-        $userDTO1->password = ('password1');
+        $userDTO1->passwort = ('passwort1');
         $userDTOList[] = $userDTO1;
 
         $userDTO2 = new UserDTO();
         $userDTO2->name = ('User 2 Name');
         $userDTO2->email = ('user2@example.com');
-        $userDTO2->password = ('password2');
+        $userDTO2->passwort = ('passwort2');
         $userDTOList[] = $userDTO2;
 
         $this->userMapper->DTO2Json($userDTOList);

@@ -14,17 +14,16 @@ use Twig\Error\SyntaxError;
 class PlayerController implements ControllerInterface
 {
     private View $templateEngine;
-    public string $player_id;
 
     public function __construct(Container $container)
     {
         $this->templateEngine = $container->get(View::class);
-        $this->player_id = $_GET['id'] ?? '';
     }
 
-    public function dataConstruct(): object
+    public function dataConstruct(): View
     {
-        $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/persons/' . $this->player_id);
+        $playerId = $_GET['id'];
+        $result = ApiHandling::makeApiRequest('http://api.football-data.org/v4/persons/' . $playerId);
         $this->templateEngine->addParameter('player', $result);
         $this->templateEngine->setTemplate('player.twig');
 

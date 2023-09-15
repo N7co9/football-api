@@ -26,6 +26,7 @@ class HomeControllerTest extends TestCase
     {
         $output = $this->construct->dataConstruct();
 
+
         self::assertSame('home.twig', $output->getTpl());
         self::assertSame('BSA', $output->getParameters()['competitions'][0]['code']);
         self::assertSame(2013, $output->getParameters()['competitions'][0]['id']);

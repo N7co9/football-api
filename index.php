@@ -10,8 +10,8 @@ error_reporting(E_ALL);
 
 
 $container = new \App\Core\Container();
-$dependencyprovider = new \App\Core\DependencyProvider();
-$dependencyprovider->provide($container);
+$dependencyProvider = new \App\Core\DependencyProvider();
+$dependencyProvider->provide($container);
 $provider = new \App\Core\ControllerProvider();
 $page = $_GET['page'] ?? '';
 
@@ -25,5 +25,6 @@ foreach ($provider->getList() as $key => $controllerClass) {
         }
     }
 }
+
 $data = $controller->dataConstruct();
 $data->display();

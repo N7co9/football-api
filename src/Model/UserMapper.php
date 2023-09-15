@@ -21,7 +21,7 @@ class UserMapper
         foreach ($data as $entryData) {
             $userDTO = new UserDTO();
             $userDTO->email = ($entryData['email']);
-            $userDTO->password = ($entryData['password']);
+            $userDTO->passwort = ($entryData['passwort']);
             $userDTO->name = ($entryData['name']);
             $userDTOList[] = $userDTO;
         }
@@ -39,7 +39,7 @@ class UserMapper
             $entries[] = [
                 'name' => $userDTO->name,
                 'email' => $userDTO->email,
-                'password' => $userDTO->password
+                'passwort' => $userDTO->passwort
             ];
         }
         $encoded = json_encode($entries, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);

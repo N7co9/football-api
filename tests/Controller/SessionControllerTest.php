@@ -25,7 +25,7 @@ class SessionControllerTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['mail'] = 'validation@validation.com';
-        $_POST['password'] = 'Xyz12345*';
+        $_POST['passwort'] = 'Xyz12345*';
 
         $output = $this->construct->dataConstruct();
 
@@ -39,7 +39,7 @@ class SessionControllerTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['mail'] = 'invalid-combination';
-        $_POST['password'] = 'invalid-combination';
+        $_POST['passwort'] = 'invalid-combination';
 
         $output = $this->construct->dataConstruct();
 

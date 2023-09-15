@@ -20,3 +20,23 @@ class ApiHandling
         return json_decode($response, true, 512, JSON_THROW_ON_ERROR);
     }
 }
+
+
+
+/*
+
+ ApiHandling should build the whole request everytime and only take - for example - the player id or the team id
+ and return the right api response json. the api call should not be built in the controller.
+ means you have to build new functions inside the ApiHandling class for each Controller that does exactly that.
+
+ change the $this->value to what is happening in player controller
+ you have to manipulate the $GET and not the value itself
+
+ restructure the folder structure
+
+ ALL CONTROLLER TESTS -> tests/Api
+ ApiHandlingTest also -> tests/Api
+
+ the goal is that we can separate the Api testing from the testing of the rest of the code!!
+
+*/
