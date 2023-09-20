@@ -10,5 +10,5 @@ class PlayerDTO
     public string $lastName;
     public string $dateOfBirth;
     public string $nationality;
-    public int $shirtNumber;
+    public string $shirtNumber;
 }

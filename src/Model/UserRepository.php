@@ -34,4 +34,7 @@ class UserRepository
 
         return false;
     }
+    public function getFavIDs($mail){
+        return explode(", ", $this->findByMail($mail)->favIDs);
+    }
 }

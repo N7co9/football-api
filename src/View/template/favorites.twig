@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favorites</title>
+</head>
+
+<body>
+
+<h2>Welcome back, please login:</h2>
+
+<form action="" method="POST">
+    <label for="mail">Enter your E-Mail</label><br>
+    <input type="text" value="{{ vMail }}" id="mail" name="mail"><br>
+    <label for="password">Enter your Password</label><br>
+    <input type="password" id="password" name="passwort"><br>
+    <input type="submit">
+</form>
+
+{% if feedback %}
+    <p style="color:red">{{ feedback }}</p>
+{% endif %}
+
+
+<p>Need to go back to the Homepage? Click <a href="/index.php">here</a>!</p>
+
+</body>

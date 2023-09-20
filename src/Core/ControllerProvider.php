@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Core;
 
 use App\Controller\ClubController;
+use App\Controller\FavoriteController;
 use App\Controller\HomeController;
 use App\Controller\LogoutController;
 use App\Controller\PlayerController;
@@ -29,8 +30,9 @@ class ControllerProvider
 
             "logout" => LogoutController::class,
 
-            "login" => SessionController::class
+            "login" => SessionController::class,
 
+            "favorites" => FavoriteController::class
         ];
     }
 }

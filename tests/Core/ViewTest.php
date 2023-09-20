@@ -9,7 +9,7 @@ class ViewTest extends TestCase
 {
     public function testDisplay()
     {
-        $templatePath = __DIR__ . '/../../src/View/template';
+        $templatePath = __DIR__ . '/../testData/';
         $view = new View($templatePath);
         $view->setTemplate('test.twig');
         $view->addParameter('name', 'Nico');

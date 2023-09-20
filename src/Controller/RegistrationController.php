@@ -40,7 +40,7 @@ class RegistrationController implements ControllerInterface
             $validator = $this->validator;
             $this->errorDTOList = $validator->validate($userDTO);
 
-            if ($this->errorDTOList[0] === '') {
+            if (empty($this->errorDTOList)) {
                 $validPassword = password_hash(password: $userDTO->passwort, algo: PASSWORD_DEFAULT);
 
                 $newUser = new UserDTO();

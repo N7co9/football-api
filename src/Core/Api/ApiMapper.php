@@ -3,6 +3,7 @@
 namespace App\Core\Api;
 
 use App\Model\DTO\CompetitionDTO;
+use App\Model\DTO\FavoriteDTO;
 use App\Model\DTO\PlayerDTO;
 use App\Model\DTO\StandingDTO;
 use App\Model\DTO\TeamDTO;
@@ -18,7 +19,7 @@ class ApiMapper
         $player->name = $response['name'];
         $player->dateOfBirth = $response['dateOfBirth'];
         $player->nationality = $response['nationality'];
-        $player->shirtNumber = $response['shirtNumber'];
+        $player->shirtNumber = $response['shirtNumber'] ?? '';
 
         return $player;
     }
@@ -68,5 +69,15 @@ class ApiMapper
             $listOfTeamDTO [] = $teamDTO;
         }
         return $listOfTeamDTO;
+    }
+
+    public function favorite($response) : FavoriteDTO
+    {
+        $favoriteDTO = new FavoriteDTO();
+        $favoriteDTO->id = $response['id'] ?? '';
+        $favoriteDTO->name = $response['name'] ?? '';
+        $favoriteDTO->crest = $response['crest'] ?? '';
+
+        return $favoriteDTO;
     }
 }

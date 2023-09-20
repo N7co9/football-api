@@ -6,6 +6,14 @@
 <body>
 
 {% if user %}
+    <p>
+    {%for favorite in favorites %}
+        |
+        <img src="{{ favorite.crest }}" height="22" width="22"> <a href="/index.php?page=team&id={{favorite.id}}">{{ favorite.name }}</a>
+    {% endfor %}
+        |
+    </p>
+
     <p>Welcome back, {{ user }}</p>
 {% endif %}
 

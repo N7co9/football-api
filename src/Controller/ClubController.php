@@ -11,7 +11,6 @@ use App\Core\View;
 class ClubController implements ControllerInterface
 {
     private View $templateEngine;
-    public string $team_id;
 
     public function __construct(Container $container)
     {
@@ -24,7 +23,9 @@ class ClubController implements ControllerInterface
         $teamId = $_GET['id'];
         $result = new ApiHandling($this->ApiMapper);
         $result = $result->getTeam($teamId);
+        $this->templateEngine->addParameter('user', $_SESSION['mail'] ?? null);
         $this->templateEngine->addParameter('team', $result);
+        $this->templateEngine->addParameter('id', $teamId);
         $this->templateEngine->setTemplate('team.twig');
 
         return $this->templateEngine;

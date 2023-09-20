@@ -15,7 +15,7 @@ class ApiHandling {
         return $this->makeApiRequest('competitions/');
     }
 
-    public function getPerson(int $playerId): \App\Model\DTO\PlayerDTO
+    public function getPerson(string $playerId): \App\Model\DTO\PlayerDTO
     {
         $response = $this->makeApiRequest('persons/' .  $playerId);
         return $this->apiMapper->person($response);
@@ -37,6 +37,12 @@ class ApiHandling {
     {
         $response = $this->makeApiRequest('teams/' . $teamId);
         return $this->apiMapper->team($response);
+    }
+
+    public function getFav(string $teamId)
+    {
+        $response = $this->makeApiRequest('teams/' . $teamId);
+        return $this->apiMapper->favorite($response);
     }
 
     private function makeApiRequest(string $url): array

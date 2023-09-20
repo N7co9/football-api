@@ -6,23 +6,43 @@ use App\Model\DTO\ErrorDTO;
 
 class Validator
 {
-    public mixed $errorDTOList;
+    public function validate($userDTO): array
+    {
+        $errorDTOList = [];
 
-    public function validate($userDTO): mixed
+        $this->validateName($userDTO, $errorDTOList);
+        $this->validateEmail($userDTO, $errorDTOList);
+        $this->validatePassword($userDTO, $errorDTOList);
+
+        return $errorDTOList;
+    }
+
+    private function validateName($userDTO, &$errorDTOList) : void
     {
         if (empty($userDTO->name) || !preg_match("/^[a-zA-Z-' ]*$/", $userDTO->name)) {
-            $this->errorDTOList [] = new ErrorDTO('Oops, your name doesn\'t look right');
+            $errorDTOList[] = new ErrorDTO('Oops, your name doesn\'t look right');
         }
+    }
+
+    private function validateEmail($userDTO, &$errorDTOList) : void
+    {
         if (empty($userDTO->email) || !filter_var($userDTO->email, FILTER_VALIDATE_EMAIL)) {
-            $this->errorDTOList [] = new ErrorDTO('Oops, your email doesn\'t look right');
+            $errorDTOList[] = new ErrorDTO('Oops, your email doesn\'t look right');
         }
-        if (!empty($userDTO->passwort && preg_match('@[A-Z]@', $userDTO->passwort) && preg_match('@[a-z]@', $userDTO->passwort) &&
-            preg_match('@\d@', $userDTO->passwort) && preg_match('@\W@', $userDTO->passwort) &&
-            (strlen($userDTO->passwort) > 6))) {
-            $this->errorDTOList [] = '';
-        } else {
-            $this->errorDTOList [] = new ErrorDTO('Oops, your password doesn\'t look right!');
+    }
+
+    private function validatePassword($userDTO, &$errorDTOList) : void
+    {
+        if (
+            empty($userDTO->passwort) ||
+            !preg_match('@[A-Z]@', $userDTO->passwort) ||
+            !preg_match('@[a-z]@', $userDTO->passwort) ||
+            !preg_match('@\d@', $userDTO->passwort) ||
+            !preg_match('@\W@', $userDTO->passwort) ||
+            (strlen($userDTO->passwort) <= 6)
+        ) {
+            $errorDTOList[] = new ErrorDTO('Oops, your password doesn\'t look right!');
         }
-        return $this->errorDTOList;
     }
 }
+// favorites have to be saved in a DTO !!!

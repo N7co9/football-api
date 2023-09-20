@@ -38,7 +38,7 @@ class RegistrationControllerTest extends TestCase
         self::assertSame('registration.twig', $output->getTpl());
         self::assertSame('', $output->getParameters()['vName']);
         self::assertSame('', $output->getParameters()['vMail']);
-        self::assertSame('Success. Welcome abroad!', $output->getParameters()['errors'][1]->message);
+        self::assertSame('Success. Welcome abroad!', $output->getParameters()['errors'][0]->message);
     }
     public function testDataConstructInvalidName() : void
     {
@@ -46,6 +46,7 @@ class RegistrationControllerTest extends TestCase
         $_POST['name'] = 'INVALID-NAME(!123)';
         $_POST['mail'] = 'TEST@TEST.com';
         $_POST['passwort'] = 'Xyz12345*';
+
 
         $output = $this->construct->dataConstruct();
 
@@ -156,7 +157,7 @@ class RegistrationControllerTest extends TestCase
         self::assertSame('registration.twig', $output->getTpl());
         self::assertSame('TEST', $output->getParameters()['vName']);
         self::assertSame('validation@validation.com', $output->getParameters()['vMail']);
-        self::assertSame('Oops, your email is already registered!', $output->getParameters()['errors'][1]->message);
+        self::assertSame('Oops, your email is already registered!', $output->getParameters()['errors'][0]->message);
     }
     protected function tearDown(): void
     {

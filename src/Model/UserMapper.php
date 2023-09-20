@@ -23,6 +23,7 @@ class UserMapper
             $userDTO->email = ($entryData['email']);
             $userDTO->passwort = ($entryData['passwort']);
             $userDTO->name = ($entryData['name']);
+            $userDTO->favIDs = $entryData['fav-ids'];
             $userDTOList[] = $userDTO;
         }
         return $userDTOList;
@@ -39,7 +40,8 @@ class UserMapper
             $entries[] = [
                 'name' => $userDTO->name,
                 'email' => $userDTO->email,
-                'passwort' => $userDTO->passwort
+                'passwort' => $userDTO->passwort,
+                'fav-ids' => $userDTO->favIDs
             ];
         }
         $encoded = json_encode($entries, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);

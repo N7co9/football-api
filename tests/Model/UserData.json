@@ -8,5 +8,10 @@
         "name": "",
         "email": "",
         "passwort": ""
+    },
+    {
+        "name": "NAME",
+        "email": "EMAIL",
+        "passwort": "PASSWORT"
     }
 ]

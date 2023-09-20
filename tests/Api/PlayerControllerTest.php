@@ -30,12 +30,12 @@ class PlayerControllerTest extends TestCase
 
     public function testDataConstruct(): void
     {
-        $_GET['id'] = 1337;
+        $_GET['id'] = '1337';
         $output = $this->construct->dataConstruct();
 
         self::assertArrayHasKey('player', $output->getParameters());
         self::assertSame('Brazil', $output->getParameters()['player']->nationality);
-        self::assertSame(3, $output->getParameters()['player']->shirtNumber);
+        self::assertSame('3', $output->getParameters()['player']->shirtNumber);
         self::assertSame('player.twig', $output->getTpl());
     }
 }
