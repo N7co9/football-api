@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Core\Container;
+use App\Core\Validator;
 use App\Model\DTO\ErrorDTO;
 use App\Model\DTO\UserDTO;
 use App\Core\View;
@@ -11,8 +12,9 @@ use App\Model\UserRepository;
 
 class RegistrationController implements ControllerInterface
 {
+    public Validator $validator;
     private UserEntityManager $userEntityManager;
-    private View $templateEngine;
+    public View $templateEngine;
     private userRepository $userRepository;
     public array $errorDTOList;
 
@@ -21,6 +23,7 @@ class RegistrationController implements ControllerInterface
         $this->templateEngine = $container->get(View::class);
         $this->userRepository = $container->get(UserRepository::class);
         $this->userEntityManager = $container->get(UserEntityManager::class);
+        $this->validator = $container->get(Validator::class);
     }
 
     public function dataConstruct(): object
@@ -31,26 +34,15 @@ class RegistrationController implements ControllerInterface
         $userDTO->passwort = ($_POST['passwort'] ?? '');
         $this->errorDTOList = [];
 
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            if (empty($userDTO->name) || !preg_match("/^[a-zA-Z-' ]*$/", $userDTO->name)) {
-                $this->errorDTOList [] = new ErrorDTO('Oops, your name doesn\'t look right');
-            }
+            $validator = $this->validator;
+            $this->errorDTOList = $validator->validate($userDTO);
 
-            if (empty($userDTO->email) || !filter_var($userDTO->email, FILTER_VALIDATE_EMAIL)) {
-                $this->errorDTOList [] = new ErrorDTO('Oops, your email doesn\'t look right');
-            }
-
-            if (!empty($userDTO->passwort && preg_match('@[A-Z]@', $userDTO->passwort) && preg_match('@[a-z]@', $userDTO->passwort) &&
-                preg_match('@\d@', $userDTO->passwort) && preg_match('@\W@', $userDTO->passwort) &&
-                (strlen($userDTO->passwort) > 6))) {
+            if ($this->errorDTOList[0] === '') {
                 $validPassword = password_hash(password: $userDTO->passwort, algo: PASSWORD_DEFAULT);
-            } else {
-                $validPassword = '';
-                $this->errorDTOList []  = new ErrorDTO('Oops, your password doesn\'t look right!');
-            }
 
-            if (empty($this->errorDTOList)) {
                 $newUser = new UserDTO();
                 $newUser->name = ($userDTO->name ?? '');
                 $newUser->email = ($userDTO->email ?? '');

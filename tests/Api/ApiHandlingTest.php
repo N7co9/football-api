@@ -1,9 +1,9 @@
 <?php
 
-namespace Controller;
+namespace Api;
 
-use App\Core\ApiHandling;
-use App\Core\ApiMapper;
+use App\Core\Api\ApiHandling;
+use App\Core\Api\ApiMapper;
 use App\Core\Container;
 use App\Core\DependencyProvider;
 use PHPUnit\Framework\TestCase;

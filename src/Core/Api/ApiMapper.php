@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Core;
+namespace App\Core\Api;
 
-use App\Controller\TeamController;
 use App\Model\DTO\CompetitionDTO;
 use App\Model\DTO\PlayerDTO;
 use App\Model\DTO\StandingDTO;

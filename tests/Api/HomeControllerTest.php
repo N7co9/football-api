@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller;
+namespace Api;
 
 use App\Controller\HomeController;
 use App\Core\Container;
