@@ -9,7 +9,6 @@ class Validator
     public function validate($userDTO): array
     {
         $errorDTOList = [];
-
         $this->validateName($userDTO, $errorDTOList);
         $this->validateEmail($userDTO, $errorDTOList);
         $this->validatePassword($userDTO, $errorDTOList);

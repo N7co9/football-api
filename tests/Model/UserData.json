@@ -1,17 +1,24 @@
 [
     {
-        "name": "1",
-        "email": "2",
-        "passwort": "3"
+        "name": "User 1 Name",
+        "email": "user1@example.com",
+        "passwort": "passwort1",
+        "fav-ids": [
+            "5"
+        ]
     },
     {
-        "name": "",
-        "email": "",
-        "passwort": ""
+        "name": "User 2 Name",
+        "email": "user2@example.com",
+        "passwort": "passwort2",
+        "fav-ids": [
+            "5"
+        ]
     },
     {
         "name": "NAME",
         "email": "EMAIL",
-        "passwort": "PASSWORT"
+        "passwort": "PASSWORT",
+        "fav-ids": []
     }
 ]

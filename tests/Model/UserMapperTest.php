@@ -24,11 +24,13 @@ class UserMapperTest extends TestCase
                 'name' => '1',
                 'email' => '2',
                 'passwort' => '3',
+                'fav-ids' => ["5"]
             ],
             [
                 'name' => '',
                 'email' => '',
-                'passwort' => ''
+                'passwort' => '',
+                'fav-ids' => []
             ]
         );
 
@@ -41,6 +43,7 @@ class UserMapperTest extends TestCase
         $this->assertSame($userDTOList[0]->name, '1');
         $this->assertSame($userDTOList[0]->email, '2');
         $this->assertSame($userDTOList[0]->passwort, '3');
+        $this->assertSame($userDTOList[0]->favIDs, ["0" => "5"]);
     }
 
     public function testDTO2Json(): void
@@ -51,12 +54,14 @@ class UserMapperTest extends TestCase
         $userDTO1->name = ('User 1 Name');
         $userDTO1->email = ('user1@example.com');
         $userDTO1->passwort = ('passwort1');
+        $userDTO1->favIDs = ["5"];
         $userDTOList[] = $userDTO1;
 
         $userDTO2 = new UserDTO();
         $userDTO2->name = ('User 2 Name');
         $userDTO2->email = ('user2@example.com');
         $userDTO2->passwort = ('passwort2');
+        $userDTO2->favIDs = ["5"];
         $userDTOList[] = $userDTO2;
 
         $this->userMapper->DTO2Json($userDTOList);

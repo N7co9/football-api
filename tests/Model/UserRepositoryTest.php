@@ -2,9 +2,11 @@
 
 namespace Model;
 
+use App\Model\DTO\FavoriteDTO;
 use App\Model\DTO\UserDTO;
 use App\Model\UserRepository;
 use PHPUnit\Framework\TestCase;
+use function PHPUnit\Framework\assertSame;
 
 /**
  * Name = Validation
@@ -51,4 +53,5 @@ class UserRepositoryTest extends TestCase
         $return = $ur->checkLoginCredentials($dto);
         self::assertFalse($return);
     }
+
 }

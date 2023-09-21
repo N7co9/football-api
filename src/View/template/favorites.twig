@@ -1,24 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 <head>
     <title>Favorites</title>
 </head>
 
 <body>
 
-<h2>Welcome back, please login:</h2>
-
-<form action="" method="POST">
-    <label for="mail">Enter your E-Mail</label><br>
-    <input type="text" value="{{ vMail }}" id="mail" name="mail"><br>
-    <label for="password">Enter your Password</label><br>
-    <input type="password" id="password" name="passwort"><br>
-    <input type="submit">
-</form>
-
-{% if feedback %}
-    <p style="color:red">{{ feedback }}</p>
+{% if user %}
+    <h3>Hi, {{ user }}!</h3>
+    <h4>See how your favorite teams are doing:</h4>
+    <p>
+        {%for favorite in favorites %}
+            <img src="{{ favorite.crest }}" height="22" width="22"> <a href="/index.php?page=team&id={{favorite.id}}">{{ favorite.name }}</a>
+            >> <a href="/index.php?page=favorites&action=up&id={{favorite.id}}">up?</a>
+            / <a href="/index.php?page=favorites&action=down&id={{favorite.id}}">down?</a>
+            / <a href="/index.php?page=favorites&action=remove&id={{favorite.id}}">remove?</a> <br>
+        {% endfor %}
+    </p>
 {% endif %}
+
+{% if not user %}
+<p> Login to use this feature! </p>
+{% endif %}
+
+{% if not favorites %}
+<p>...nothing to see here</p>
+{% endif %}
+
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 <p>Need to go back to the Homepage? Click <a href="/index.php">here</a>!</p>

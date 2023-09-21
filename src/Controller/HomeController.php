@@ -6,20 +6,21 @@ namespace App\Controller;
 use App\Core\Api\ApiHandling;
 use App\Core\Api\ApiMapper;
 use App\Core\Container;
-use App\Core\FavoritesProvider;
+use App\Core\FavoritesLogic\FavMapper;
+use App\Core\FavoritesLogic\FavProvider;
 use App\Core\View;
-use App\Model\DTO\FavoriteDTO;
-use App\Model\DTO\UserDTO;
 use App\Model\UserRepository;
 
 class HomeController implements ControllerInterface
 {
     private View $templateEngine;
+    public ApiMapper $ApiMapper;
+    public FavMapper $favMapper;
     public function __construct(Container $container)
     {
         $this->templateEngine = $container->get(View::class);
         $this->ApiMapper = $container->get(ApiMapper::class);
-        $this->userRepository = $container->get(UserRepository::class);
+        $this->favMapper = $container->get(FavMapper::class);
     }
 
     public function dataConstruct(): View
@@ -27,8 +28,7 @@ class HomeController implements ControllerInterface
         $apiHandler = new ApiHandling($this->ApiMapper);
         $result = $apiHandler->getCompetitions();
 
-        $provider = new FavoritesProvider($this->userRepository, $apiHandler);
-        $listOfFavDTOs = $provider->provide();
+        $listOfFavDTOs = $this->favMapper->mapDTO();
 
         $this->templateEngine->setTemplate('home.twig');
         $this->templateEngine->addParameter('favorites', $listOfFavDTOs);

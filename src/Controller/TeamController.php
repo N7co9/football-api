@@ -11,7 +11,6 @@ use App\Core\View;
 class TeamController implements ControllerInterface
 {
     private View $templateEngine;
-    public string $league_id;
 
     public function __construct(Container $container)
     {

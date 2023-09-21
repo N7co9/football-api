@@ -10,8 +10,8 @@
     {%for favorite in favorites %}
         |
         <img src="{{ favorite.crest }}" height="22" width="22"> <a href="/index.php?page=team&id={{favorite.id}}">{{ favorite.name }}</a>
-    {% endfor %}
         |
+    {% endfor %}
     </p>
 
     <p>Welcome back, {{ user }}</p>
@@ -32,6 +32,8 @@
 
 {% if user %}
     <p>Log out? Click <a href=/index.php?page=logout>here</a>.</p>
+    <p>Manage your favorite teams? Click <a href=/index.php?page=favorites&action=manage>here</a>.</p>
+
 {% endif %}
 
 </body>
