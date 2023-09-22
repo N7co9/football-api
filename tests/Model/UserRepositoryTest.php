@@ -4,6 +4,8 @@ namespace Model;
 
 use App\Model\DTO\FavoriteDTO;
 use App\Model\DTO\UserDTO;
+use App\Model\UserEntityManager;
+use App\Model\UserMapper;
 use App\Model\UserRepository;
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\assertSame;
@@ -54,4 +56,57 @@ class UserRepositoryTest extends TestCase
         self::assertFalse($return);
     }
 
+    public function testCheckIfFavIdAlreadyAddedTrue() : void
+    {
+        $newUser = new UserDTO();
+        $newUser->name = ('N4ME');
+        $newUser->email = ('EMAIL');
+        $newUser->passwort = ('PASSWORT');
+        $newUser->favIDs = ["5"];
+
+        $entityManager = new UserEntityManager(new UserMapper());
+        $entityManager->save($newUser);
+
+        $_SESSION['mail'] = $newUser->email;
+
+        $ur = new UserRepository();
+        $bool = $ur->checkIfFavIdAlreadyAdded('EMAIL', '5');
+
+        self::assertTrue($bool);
+    }
+    public function testCheckIfFavIdAlreadyAddedFalse() : void
+    {
+        $newUser = new UserDTO();
+        $newUser->name = ('N4ME');
+        $newUser->email = ('EMAIL');
+        $newUser->passwort = ('PASSWORT');
+        $newUser->favIDs = ["5"];
+
+        $entityManager = new UserEntityManager(new UserMapper());
+        $entityManager->save($newUser);
+
+        $_SESSION['mail'] = $newUser->email;
+
+        $ur = new UserRepository();
+        $bool = $ur->checkIfFavIdAlreadyAdded('EMAIL', '6');
+
+        self::assertFalse($bool);
+    }
+    public function tearDown(): void
+    {
+
+        $getContents = file_get_contents(__DIR__ . '/../../src/Model/UserData.json',);
+        $arrayFromJSON = json_decode($getContents, true);
+
+        if (!empty($arrayFromJSON)) {
+            $count = count($arrayFromJSON) - 1;
+        }
+
+        if (($arrayFromJSON[$count ?? null]['name']) === 'N4ME') {
+            array_pop($arrayFromJSON);
+            $encoded = json_encode($arrayFromJSON, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+            file_put_contents(__DIR__ . '/../../src/Model/UserData.json', $encoded);
+        }
+        parent::tearDown();
+    }
 }

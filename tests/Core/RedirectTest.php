@@ -13,7 +13,7 @@ class RedirectTest extends TestCase
     {
         $headerSender = new RedirectSpy();
         $redirect = new Redirect($headerSender);
-        $redirect->to('');
-        self::assertSame('http://localhost:8079/', $headerSender->capturedHeaders[0]);
+        $redirect->to('index.php?page=favorites&action=manage');
+        self::assertSame('http://localhost:8079/index.php?page=favorites&action=manage', $headerSender->capturedHeaders[0]);
     }
 }

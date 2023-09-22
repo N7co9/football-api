@@ -8,9 +8,12 @@
 <h1>Team Overview</h1>
 
 {% if user %}
-<a href="/index.php?page=favorites&action=add&id={{ id }}">Add to Favorites</a>
-<br><br>
+{% if isAdded %}
 <a href="/index.php?page=favorites&action=remove&id={{ id }}">Remove from Favorites</a>
+        <br><br>
+        {% else %}
+            <a href="/index.php?page=favorites&action=add&id={{ id }}">Add to Favorites</a>
+{% endif %}
 {% endif %}
 
 {% for tea in team %}

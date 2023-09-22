@@ -3,6 +3,11 @@
         "name": "Validation",
         "email": "validation@validation.com",
         "passwort": "$2y$10$tsiHgW8K4\/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy",
-        "fav-ids": []
+        "fav-ids": [
+            "3",
+            "2",
+            "4",
+            "5"
+        ]
     }
 ]

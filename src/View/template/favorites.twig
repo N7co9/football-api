@@ -10,21 +10,35 @@
     <h3>Hi, {{ user }}!</h3>
     <h4>See how your favorite teams are doing:</h4>
     <p>
-        {%for favorite in favorites %}
-            <img src="{{ favorite.crest }}" height="22" width="22"> <a href="/index.php?page=team&id={{favorite.id}}">{{ favorite.name }}</a>
-            >> <a href="/index.php?page=favorites&action=up&id={{favorite.id}}">up?</a>
-            / <a href="/index.php?page=favorites&action=down&id={{favorite.id}}">down?</a>
-            / <a href="/index.php?page=favorites&action=remove&id={{favorite.id}}">remove?</a> <br>
+        {% for favorite in favorites %}
+            {% if loop.first and favorites|length != 1 %}
+                <img src="{{ favorite.crest }}" height="22" width="22"> <a
+                    href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
+                >> <a href="/index.php?page=favorites&action=down&id={{ favorite.id }}">down?</a> <br>
+            {% elseif loop.last and favorites|length != 1 %}
+                <img src="{{ favorite.crest }}" height="22" width="22"> <a
+                    href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
+                >> <a href="/index.php?page=favorites&action=up&id={{ favorite.id }}">up?</a>
+            {% elseif favorites|length == 1 %}
+                <img src="{{ favorite.crest }}" height="22" width="22"> <a
+                    href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
+            {% else %}
+                <img src="{{ favorite.crest }}" height="22" width="22"> <a
+                    href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
+                >> <a href="/index.php?page=favorites&action=up&id={{ favorite.id }}">up?</a>
+                / <a href="/index.php?page=favorites&action=down&id={{ favorite.id }}">down?</a>
+                <br>
+            {% endif %}
         {% endfor %}
     </p>
 {% endif %}
 
 {% if not user %}
-<p> Login to use this feature! </p>
+    <p> Login to use this feature! </p>
 {% endif %}
 
 {% if not favorites %}
-<p>...nothing to see here</p>
+    <p>...nothing to see here</p>
 {% endif %}
 
 <br>

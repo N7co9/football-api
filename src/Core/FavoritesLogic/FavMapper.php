@@ -18,7 +18,7 @@ class FavMapper
     public function mapDTO(): ?array
     {
         if(!empty($_SESSION['mail'])){
-            $ids = $this->userRepository->getFavIDs($_SESSION['mail']);
+            $ids = $this->userRepository->getFavIDs($_SESSION['mail']) ?? [];
             foreach ($ids as $id) {
                 $favDtoList [] = $this->apiHandling->getFav($id);
             }

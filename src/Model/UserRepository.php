@@ -4,6 +4,9 @@ namespace App\Model;
 
 use App\Model\DTO\UserDTO;
 use JsonException;
+use PHPUnit\Logging\Exception;
+use function PHPUnit\Framework\assertNotNull;
+use function PHPUnit\Framework\throwException;
 
 class UserRepository
 {
@@ -35,8 +38,27 @@ class UserRepository
         return false;
     }
 
-    public function getFavIDs(string $mail) : array
+    /**
+     * @throws JsonException
+     */
+    public function getFavIDs(string $mail): ?array
     {
-        return $this->findByMail($mail)->favIDs;
+        if (($this->findByMail($mail)) !== null){
+            return $this->findByMail($mail)->favIDs;
+        }
+        return null;
+    }
+
+    /**
+     * @throws JsonException
+     */
+    public function checkIfFavIdAlreadyAdded($mail, $favId): bool
+    {
+        if (!empty($_SESSION['mail'])) {
+            if ((in_array($favId, $this->getFavIDs($mail) ?? [], true))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

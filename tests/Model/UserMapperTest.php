@@ -5,6 +5,7 @@ namespace Model;
 use App\Model\DTO\UserDTO;
 use App\Model\UserMapper;
 use PHPUnit\Framework\TestCase;
+use function PHPUnit\Framework\fileExists;
 
 class UserMapperTest extends TestCase
 {
@@ -34,7 +35,8 @@ class UserMapperTest extends TestCase
             ]
         );
 
-        file_put_contents($this->testJsonPath, json_encode($testJsonData, JSON_PRETTY_PRINT));
+
+        file_put_contents($this->testJsonPath, json_encode($testJsonData, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
 
         $userDTOList = $this->userMapper->JsonToDTO();
 
@@ -72,5 +74,11 @@ class UserMapperTest extends TestCase
 
         $this->assertIsArray($decodedData);
         $this->assertCount(count($userDTOList), $decodedData);
+    }
+
+    public function tearDown(): void
+    {
+        unlink($this->testJsonPath);
+        parent::tearDown();
     }
 }
