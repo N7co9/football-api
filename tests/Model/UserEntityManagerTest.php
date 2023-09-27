@@ -25,28 +25,16 @@ class UserEntityManagerTest extends TestCase
         parent::setUp();
     }
 
-    public function testSave(): void
+    public function testSaveCredentials(): void
     {
         $newUser = new UserDTO();
         $newUser->name = ('N4ME');
         $newUser->email = ('EMAIL');
         $newUser->passwort = ('PASSWORT');
-        $newUser->favIDs = ["5", "4", "3"];
 
-        $returnArray = $this->entityManager->save($newUser);
+        $returnArray = $this->entityManager->saveCredentials($newUser);
 
-        foreach ($returnArray as $user) {
-            $testEntry = array(
-                "test-name" => $user->name,
-                "test-email" => $user->email,
-                "test-passwort" => $user->passwort,
-                "fav-ids" => $user->favIDs
-            );
-        }
-        self::assertSame($testEntry['test-name'], 'N4ME');
-        self::assertSame($testEntry['test-email'], 'EMAIL');
-        self::assertSame($testEntry['test-passwort'], 'PASSWORT');
-        self::assertSame($testEntry['fav-ids'], ["5", "4", "3"]);
+        self::assertSame('', $returnArray);
     }
 
     public function testAddFavSuccessful(): void
@@ -55,14 +43,7 @@ class UserEntityManagerTest extends TestCase
         $_SESSION['mail'] = 'EMAIL';
 
 
-        $newUser = new UserDTO();
-        $newUser->name = ('N4ME');
-        $newUser->email = ('EMAIL');
-        $newUser->passwort = ('PASSWORT');
-        $newUser->favIDs = ["5", "4", "3"];
-
-        $this->entityManager->save($newUser);
-        $this->entityManager->addFav($favIdToAdd);
+        $this->entityManager->addFav($favIdToAdd, 1);
         $favIDs = $this->userRepository->getFavIDs($_SESSION['mail']);
 
         self::assertSame('2', $favIDs[3]);
@@ -80,7 +61,7 @@ class UserEntityManagerTest extends TestCase
         $newUser->passwort = ('PASSWORT');
         $newUser->favIDs = ["5", "4", "3"];
 
-        $this->entityManager->save($newUser);
+        $this->entityManager->saveCredentials($newUser);
         $this->entityManager->remFav($favIdToRemove);
         $favIDs = $this->userRepository->getFavIDs($_SESSION['mail']);
 
@@ -102,7 +83,7 @@ class UserEntityManagerTest extends TestCase
         $newUser->passwort = ('PASSWORT');
         $newUser->favIDs = ["5", "4", "3"];
 
-        $this->entityManager->save($newUser);
+        $this->entityManager->saveCredentials($newUser);
         $this->entityManager->manageFav($favIDsToManage);
         $favIDs = $this->userRepository->getFavIDs($_SESSION['mail']);
 

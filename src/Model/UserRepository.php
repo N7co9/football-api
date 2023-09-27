@@ -3,32 +3,25 @@
 namespace App\Model;
 
 use App\Model\DTO\UserDTO;
+use App\Model\SQL\SqlConnector;
 use JsonException;
-use PHPUnit\Logging\Exception;
-use function PHPUnit\Framework\assertNotNull;
-use function PHPUnit\Framework\throwException;
+
 
 class UserRepository
 {
-    /**
-     * @throws JsonException
-     */
+    public UserMapper $userMapper;
+    public SqlConnector $sqlConnector;
+    public function __construct()
+    {
+        $this->userMapper = new UserMapper();
+        $this->sqlConnector = new SqlConnector();
+    }
     public function findByMail(string $mail): ?UserDTO
     {
-        $UserMapper = new UserMapper();
-        $UserDTOList = $UserMapper->jsonToDTO();
-
-        foreach ($UserDTOList as $userDTO) {
-            if ($userDTO->email === $mail) {
-                return $userDTO;
-            }
-        }
-        return null;
+        $array = $this->sqlConnector->executeSelectQuery("SELECT * FROM users where email = :mail", [':mail' => $mail]);
+        return $this->userMapper->mapFromArray2Dto($array);
     }
 
-    /**
-     * @throws JsonException
-     */
     public function checkLoginCredentials(UserDTO $UserDTO): bool
     {
         $userDTO = $this->findByMail($UserDTO->email);
@@ -38,20 +31,16 @@ class UserRepository
         return false;
     }
 
-    /**
-     * @throws JsonException
-     */
     public function getFavIDs(string $mail): ?array
     {
-        if (($this->findByMail($mail)) !== null){
-            return $this->findByMail($mail)->favIDs;
+        $array = $this->sqlConnector->executeSelectQuery("SELECT user_favorites.favorite_id FROM user_favorites INNER JOIN users ON users.id = user_favorites.user_id WHERE users.email = :mail", ['mail' => $mail]);
+        foreach ($array as $item)
+        {
+            $arrayOfFavIDs [] = $item['favorite_id'];
         }
-        return null;
+        return $arrayOfFavIDs ?? null;
     }
 
-    /**
-     * @throws JsonException
-     */
     public function checkIfFavIdAlreadyAdded($mail, $favId): bool
     {
         if (!empty($_SESSION['mail'])) {

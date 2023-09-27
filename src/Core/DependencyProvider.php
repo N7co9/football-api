@@ -8,6 +8,7 @@ use App\Core\FavoritesLogic\FavManipulation;
 use App\Core\FavoritesLogic\FavMapper;
 use App\Model\DTO\FavoriteDTO;
 use App\Model\DTO\UserDTO;
+use App\Model\SQL\SqlConnector;
 use App\Model\UserEntityManager;
 use App\Model\UserMapper;
 use App\Model\UserRepository;
@@ -27,6 +28,7 @@ class DependencyProvider
         $container->set(UserRepository::class, new UserRepository());
         $container->set(UserDTO::class, new UserDTO());
         $container->set(ApiMapper::class, new ApiMapper());
+        $container->set(SqlConnector::class, new SqlConnector());
 
         $container->set(UserEntityManager::class, new UserEntityManager(new UserMapper()));
     }

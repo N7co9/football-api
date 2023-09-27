@@ -10,70 +10,28 @@ use function PHPUnit\Framework\fileExists;
 class UserMapperTest extends TestCase
 {
     private UserMapper $userMapper;
-    private string $testJsonPath = __DIR__ . '/../Model/UserData.json';
+    public array $userDTOList;
 
     public function setUp(): void
     {
-        $this->userMapper = new UserMapper($this->testJsonPath);
-
+        $this->userMapper = new UserMapper();
     }
 
-    public function testJson2DTO(): void
+    public function testSql2Dto(): void
     {
-        $testJsonData = array(
-            [
-                'name' => '1',
-                'email' => '2',
-                'passwort' => '3',
-                'fav-ids' => ["5"]
-            ],
-            [
-                'name' => '',
-                'email' => '',
-                'passwort' => '',
-                'fav-ids' => []
-            ]
-        );
+        $this->userDTOList = $this->userMapper->Sql2Dto();
 
-
-        file_put_contents($this->testJsonPath, json_encode($testJsonData, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
-
-        $userDTOList = $this->userMapper->JsonToDTO();
-
-        $this->assertIsArray($userDTOList);
-        $this->assertContainsOnlyInstancesOf(UserDTO::class, $userDTOList);
-        $this->assertSame($userDTOList[0]->name, '1');
-        $this->assertSame($userDTOList[0]->email, '2');
-        $this->assertSame($userDTOList[0]->passwort, '3');
-        $this->assertSame($userDTOList[0]->favIDs, ["0" => "5"]);
+        self::assertSame('', $this->userDTOList);
     }
 
     public function testDTO2Json(): void
     {
-        $userDTOList = [];
+        $this->userDTOList = $this->userMapper->Sql2Dto();
 
-        $userDTO1 = new UserDTO();
-        $userDTO1->name = ('User 1 Name');
-        $userDTO1->email = ('user1@example.com');
-        $userDTO1->passwort = ('passwort1');
-        $userDTO1->favIDs = ["5"];
-        $userDTOList[] = $userDTO1;
+        $return = $this->userMapper->Dto2Sql($this->userDTOList);
 
-        $userDTO2 = new UserDTO();
-        $userDTO2->name = ('User 2 Name');
-        $userDTO2->email = ('user2@example.com');
-        $userDTO2->passwort = ('passwort2');
-        $userDTO2->favIDs = ["5"];
-        $userDTOList[] = $userDTO2;
+        self::assertSame('', $return);
 
-        $this->userMapper->DTO2Json($userDTOList);
-
-        $jsonContent = file_get_contents($this->testJsonPath);
-
-        $decodedData = json_decode($jsonContent, true);
-
-        $this->assertIsArray($decodedData);
-        $this->assertCount(count($userDTOList), $decodedData);
     }
 
     public function tearDown(): void

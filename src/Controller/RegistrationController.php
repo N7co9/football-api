@@ -49,7 +49,7 @@ class RegistrationController implements ControllerInterface
                 $newUser->passwort = ($validPassword);
 
                 if (empty($this->userRepository->findByMail($userDTO->email) && !empty($userDTO->passwort))) {
-                    $this->userEntityManager->save($newUser);
+                    $this->userEntityManager->saveCredentials($newUser);
                     $this->errorDTOList [] = new ErrorDTO('Success. Welcome abroad!');
                     $userDTO->name = ('');
                     $userDTO->passwort = ('');

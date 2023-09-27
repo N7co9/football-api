@@ -59,7 +59,7 @@ class FavoriteControllerTest extends TestCase
         $newUser->passwort = ('PASSWORT');
         $newUser->favIDs = ["5", "4", "3"];
 
-        $this->userEntityManager->save($newUser);
+        $this->userEntityManager->saveCredentials($newUser);
 
         $action = 'add';
         $_SESSION['mail'] = 'EMAIL';
@@ -80,7 +80,7 @@ class FavoriteControllerTest extends TestCase
         $newUser->passwort = ('PASSWORT');
         $newUser->favIDs = ["5", "4", "3"];
 
-        $this->userEntityManager->save($newUser);
+        $this->userEntityManager->saveCredentials($newUser);
 
         $action = 'down';
         $_SESSION['mail'] = 'EMAIL';
@@ -101,7 +101,7 @@ class FavoriteControllerTest extends TestCase
         $newUser->passwort = ('PASSWORT');
         $newUser->favIDs = ["5", "4", "3"];
 
-        $this->userEntityManager->save($newUser);
+        $this->userEntityManager->saveCredentials($newUser);
 
         $action = 'down';
         $_SESSION['mail'] = 'EMAIL';
@@ -122,7 +122,7 @@ class FavoriteControllerTest extends TestCase
         $newUser->passwort = ('PASSWORT');
         $newUser->favIDs = ["5", "4", "3"];
 
-        $this->userEntityManager->save($newUser);
+        $this->userEntityManager->saveCredentials($newUser);
 
         $action = 'down';
         $_SESSION['mail'] = 'EMAIL';

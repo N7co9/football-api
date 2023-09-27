@@ -32,8 +32,7 @@ class UserRepositoryTest extends TestCase
     public function testInvalidMail(): void
     {
         $mailexception = new UserRepository();
-        $return = $mailexception->findByMail('invalid-input');
-        self::assertNull($return);
+        self::assertNull($mailexception->findByMail('invalid-input'));
     }
 
     public function testCheckLoginCredentials(): void
@@ -56,57 +55,20 @@ class UserRepositoryTest extends TestCase
         self::assertFalse($return);
     }
 
-    public function testCheckIfFavIdAlreadyAddedTrue() : void
+    public function testGetFavIDs() : void
     {
-        $newUser = new UserDTO();
-        $newUser->name = ('N4ME');
-        $newUser->email = ('EMAIL');
-        $newUser->passwort = ('PASSWORT');
-        $newUser->favIDs = ["5"];
-
-        $entityManager = new UserEntityManager(new UserMapper());
-        $entityManager->save($newUser);
-
-        $_SESSION['mail'] = $newUser->email;
-
         $ur = new UserRepository();
-        $bool = $ur->checkIfFavIdAlreadyAdded('EMAIL', '5');
+        $res = $ur->getFavIDs('crazy@frog.com');
 
-        self::assertTrue($bool);
+        self::assertSame('3', $res[0]);
     }
-    public function testCheckIfFavIdAlreadyAddedFalse() : void
+
+    public function testCheckIfFavIdAlreadyAdded() : void
     {
-        $newUser = new UserDTO();
-        $newUser->name = ('N4ME');
-        $newUser->email = ('EMAIL');
-        $newUser->passwort = ('PASSWORT');
-        $newUser->favIDs = ["5"];
-
-        $entityManager = new UserEntityManager(new UserMapper());
-        $entityManager->save($newUser);
-
-        $_SESSION['mail'] = $newUser->email;
-
+        $_SESSION['mail'] = 'not-empty';
         $ur = new UserRepository();
-        $bool = $ur->checkIfFavIdAlreadyAdded('EMAIL', '6');
+        $bool = $ur->checkIfFavIdAlreadyAdded('crazy@frog.com', '3');
 
-        self::assertFalse($bool);
-    }
-    public function tearDown(): void
-    {
-
-        $getContents = file_get_contents(__DIR__ . '/../../src/Model/UserData.json',);
-        $arrayFromJSON = json_decode($getContents, true);
-
-        if (!empty($arrayFromJSON)) {
-            $count = count($arrayFromJSON) - 1;
-        }
-
-        if (($arrayFromJSON[$count ?? null]['name']) === 'N4ME') {
-            array_pop($arrayFromJSON);
-            $encoded = json_encode($arrayFromJSON, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
-            file_put_contents(__DIR__ . '/../../src/Model/UserData.json', $encoded);
-        }
-        parent::tearDown();
+        assertSame(true, $bool);
     }
 }

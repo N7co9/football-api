@@ -3,40 +3,47 @@
 namespace App\Model;
 
 use App\Model\DTO\UserDTO;
+use App\Model\SQL\SqlConnector;
 use JsonException;
 
 class UserEntityManager
 {
+    public SqlConnector $sqlConnector;
+
     public function __construct(
         private readonly UserMapper $userMapper,
     )
     {
+        $this->sqlConnector = new SqlConnector();
     }
 
     /**
      * @throws JsonException
      */
-    public function save(UserDTO $newUser): array
+    public function saveCredentials(UserDTO $newUser): string
     {
-        $userDTOList = $this->userMapper->JsonToDTO();
-        $userDTOList[] = $newUser;
-        $this->userMapper->DTO2Json($userDTOList);
+        $data = $this->userMapper->mapFromDto2Array($newUser);
+        $query = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
 
-        return $userDTOList;
+        $params = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['passwort']
+        ];
+
+        return $this->sqlConnector->executeInsertQuery($query, $params);
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function addFav($favID): void
+
+    public function addFav($favID, $user_id): void
     {
-        $userDTOList = $this->userMapper->JsonToDTO();
-        foreach ($userDTOList as $entry) {
-            if (($entry->email === $_SESSION['mail'] && !in_array($favID, $entry->favIDs, true))) {
-                $entry->favIDs[] = $favID;
-            }
-        }
-        $this->userMapper->DTO2Json($userDTOList);
+        $query = "INSERT INTO user_favorites (user_id, favorite_id) VALUES (:user_id, :favid)";
+        $params = [
+            ':user_id' => $user_id, // Replace with the actual user ID
+            ':favid' => $favID, // Replace with the actual favorite ID
+        ];
+
+        $this->sqlConnector->executeInsertQuery($query, $params);
     }
 
     /**

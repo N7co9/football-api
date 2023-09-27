@@ -28,3 +28,4 @@ foreach ($provider->getList() as $key => $controllerClass) {
 
 $data = $controller->dataConstruct();
 $data->display();
+
