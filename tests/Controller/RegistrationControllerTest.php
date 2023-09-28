@@ -161,16 +161,6 @@ class RegistrationControllerTest extends TestCase
     }
     protected function tearDown(): void
     {
-        $getContents = file_get_contents(__DIR__ . '/../../src/Model/UserData.json',);
-        $arrayFromJSON = json_decode($getContents, true);
 
-        $count = count($arrayFromJSON) - 1;
-
-        if(($arrayFromJSON[$count]['name']) === 'TEST'){
-            array_pop($arrayFromJSON);
-            $encoded = json_encode($arrayFromJSON, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
-            file_put_contents(__DIR__ . '/../../src/Model/UserData.json', $encoded);
-        }
-        parent::tearDown();
     }
 }

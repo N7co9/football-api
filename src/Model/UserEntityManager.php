@@ -9,11 +9,13 @@ use JsonException;
 class UserEntityManager
 {
     public SqlConnector $sqlConnector;
+    public UserRepository $userRepository;
 
     public function __construct(
         private readonly UserMapper $userMapper,
     )
     {
+        $this->userRepository = new UserRepository();
         $this->sqlConnector = new SqlConnector();
     }
 
@@ -35,49 +37,37 @@ class UserEntityManager
     }
 
 
-    public function addFav($favID, $user_id): void
+    public function addFav(string $favID, int $userID): void
     {
-        $query = "INSERT INTO user_favorites (user_id, favorite_id) VALUES (:user_id, :favid)";
-        $params = [
-            ':user_id' => $user_id, // Replace with the actual user ID
-            ':favid' => $favID, // Replace with the actual favorite ID
-        ];
+        $alreadyExistingFavIDs = $this->userRepository->getFavIDs($this->userRepository->getUserID($_SESSION['mail'])) ?? [];
 
-        $this->sqlConnector->executeInsertQuery($query, $params);
+        if (!in_array($favID, $alreadyExistingFavIDs, true)) {
+            $query = "INSERT INTO user_favorites (user_id, favorite_id) VALUES (:user_id, :favid)";
+            $params = [
+                ':user_id' => $userID,
+                ':favid' => $favID,
+            ];
+            $this->sqlConnector->executeInsertQuery($query, $params);
+        }
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function remFav($favIDtoRemove): void
+
+    public function remFav(string $favIDtoRemove, int $userID): void
     {
-        $userDTOList = $this->userMapper->JsonToDTO();
-        foreach ($userDTOList as $entry) {
-            if (($entry->email === $_SESSION['mail']) && in_array($favIDtoRemove, $entry->favIDs, true)) {
-                foreach ($entry->favIDs as $key => $value) {
-                    if ($value === $favIDtoRemove) {
-                        unset($entry->favIDs[$key]);
-                        $entry->favIDs = array_values($entry->favIDs);
-                        ksort($entry->favIDs);
-                    }
-                }
-            }
+        $alreadyExistingFavIDs = $this->userRepository->getFavIDs($this->userRepository->getUserID($_SESSION['mail'])) ?? [];
+
+        if (in_array($favIDtoRemove, $alreadyExistingFavIDs, true)) {
+            $query = "DELETE FROM user_favorites WHERE favorite_id = :favID AND user_id = :userID";
+            $params = [
+                ':favID' => $favIDtoRemove,
+                ':userID' => $userID
+            ];
+            $this->sqlConnector->executeDeleteQuery($query, $params);
         }
-        $this->userMapper->DTO2Json($userDTOList);
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function manageFav(array $favIDs): void
+    public function moveUp(array $newFavIds, int $userID) : void
     {
-        ksort($favIDs);
-        $userDTOList = $this->userMapper->JsonToDTO();
-        foreach ($userDTOList as $entry) {
-            if (($entry->email === $_SESSION['mail']) && !empty($entry->favIDs)) {
-                $entry->favIDs = $favIDs;
-            }
-        }
-        $this->userMapper->DTO2Json($userDTOList);
+        $this->userRepository->getFavIDs($userID);
     }
 }

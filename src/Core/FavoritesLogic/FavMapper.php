@@ -15,10 +15,10 @@ class FavMapper
         $this->userRepository = $userRepository;
         $this->apiHandling = $apiHandling;
     }
-    public function mapDTO(): ?array
+    public function mapFavIDtoDTO(): ?array
     {
         if(!empty($_SESSION['mail'])){
-            $ids = $this->userRepository->getFavIDs($_SESSION['mail']) ?? [];
+            $ids = $this->userRepository->getFavIDs($this->userRepository->getUserID($_SESSION['mail'])) ?? [];
             foreach ($ids as $id) {
                 $favDtoList [] = $this->apiHandling->getFav($id);
             }

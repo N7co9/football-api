@@ -32,7 +32,7 @@ class SessionController implements ControllerInterface
             $this->UserDTO->passwort = $_POST['passwort'] ?? '';
 
             $verify = (
-            $this->userRepository->checkLoginCredentials($this->UserDTO));                // calls UserRepository, which checks the login credentials and returns a boolean.
+            $this->userRepository->checkLoginCredentials($this->UserDTO));
             if ($verify === true) {
                 $_SESSION['mail'] = $_POST['mail'];
                 $feedback = 'success';

@@ -28,7 +28,7 @@ class HomeController implements ControllerInterface
         $apiHandler = new ApiHandling($this->ApiMapper);
         $result = $apiHandler->getCompetitions();
 
-        $listOfFavDTOs = $this->favMapper->mapDTO();
+        $listOfFavDTOs = $this->favMapper->mapFavIDtoDTO();
 
         $this->templateEngine->setTemplate('home.twig');
         $this->templateEngine->addParameter('favorites', $listOfFavDTOs);

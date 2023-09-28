@@ -4,6 +4,7 @@ namespace Model;
 
 use App\Model\DTO\FavoriteDTO;
 use App\Model\DTO\UserDTO;
+use App\Model\SQL\SqlConnector;
 use App\Model\UserEntityManager;
 use App\Model\UserMapper;
 use App\Model\UserRepository;
@@ -17,58 +18,82 @@ use function PHPUnit\Framework\assertSame;
  */
 class UserRepositoryTest extends TestCase
 {
+    public UserEntityManager $entityManager;
+    public UserRepository $userRepository;
+
+    public function setUp(): void
+    {
+        $this->entityManager = new UserEntityManager(new UserMapper());
+        $this->userRepository = new UserRepository();
+
+        $this->newUser = new UserDTO();
+        $this->newUser->name = ('TEST');
+        $this->newUser->email = ('TESTz@zTEST.COM');
+        $this->newUser->passwort = ('$2y$10$hGVJpxSAGmoys3hfECyDh.bLHrw/hzRXoj3ZTHB6h0Pj46TA52adu');
+
+        $_SESSION['mail'] = $this->newUser->email;
+
+        $this->entityManager->saveCredentials($this->newUser);
+        $id = $this->userRepository->getUserID($this->newUser->email);
+
+        $this->entityManager->addFav("5", $id);
+
+        parent::setUp();
+    }
+
     public function testFindByMail(): void
     {
-        $email = 'validation@validation.com';
+        $user = $this->userRepository->findByMail('TESTz@zTEST.COM');
 
-        $ur = new UserRepository();
-        $return = $ur->findByMail($email);
-
-        self::assertSame($return->name, 'Validation');
-        self::assertSame($return->email, 'validation@validation.com');
-        self::assertSame($return->passwort, '$2y$10$tsiHgW8K4/1cefEHapm3yOQCjWTpTDUAD4e2wh4FdiW2WO3tpkoJy');
+        self::assertSame($user->name, 'TEST');
+        self::assertSame($user->email, 'TESTz@zTEST.COM');
+        self::assertSame($user->passwort, '$2y$10$hGVJpxSAGmoys3hfECyDh.bLHrw/hzRXoj3ZTHB6h0Pj46TA52adu');
     }
 
     public function testInvalidMail(): void
     {
-        $mailexception = new UserRepository();
-        self::assertNull($mailexception->findByMail('invalid-input'));
+        self::assertNull($this->userRepository->findByMail('invalid-input'));
     }
 
     public function testCheckLoginCredentials(): void
     {
-        $ur = new UserRepository();
-        $dto = new UserDTO();
-        $dto->email = 'validation@validation.com';
-        $dto->passwort = 'Xyz12345*';
-        $return = $ur->checkLoginCredentials($dto);
-        self::assertTrue($return);
+        $testUserCredentials = new UserDTO();
+        $testUserCredentials->email = 'TESTz@zTEST.COM';
+        $testUserCredentials->passwort = 'Xyz12345*';
+
+        $boolReturn = $this->userRepository->checkLoginCredentials($testUserCredentials);
+
+        self::assertTrue($boolReturn);
     }
 
     public function testInvalidLoginCredentials(): void
     {
-        $ur = new UserRepository();
-        $dto = new UserDTO();
-        $dto->email = 'INVALID';
-        $dto->passwort = 'INVALID';
-        $return = $ur->checkLoginCredentials($dto);
-        self::assertFalse($return);
+        $testUserCredentials = new UserDTO();
+        $testUserCredentials->email = 'INVALID';
+        $testUserCredentials->passwort = 'INVALID';
+
+        $boolReturn = $this->userRepository->checkLoginCredentials($testUserCredentials);
+        self::assertFalse($boolReturn);
     }
 
-    public function testGetFavIDs() : void
+    public function testGetFavIDs(): void
     {
-        $ur = new UserRepository();
-        $res = $ur->getFavIDs('crazy@frog.com');
+        $result = $this->userRepository->getFavIDs('TESTz@zTEST.COM');
 
-        self::assertSame('3', $res[0]);
+        self::assertContains('5', $result);
     }
 
-    public function testCheckIfFavIdAlreadyAdded() : void
+    public function testCheckIfFavIdAlreadyAdded(): void
     {
-        $_SESSION['mail'] = 'not-empty';
-        $ur = new UserRepository();
-        $bool = $ur->checkIfFavIdAlreadyAdded('crazy@frog.com', '3');
+        $bool = $this->userRepository->checkIfFavIdAlreadyAdded('TESTz@zTEST.COM', '5');
 
         assertSame(true, $bool);
+    }
+
+    public function tearDown(): void
+    {
+        $connector = new SqlConnector();
+        $connector->executeDeleteQuery("DELETE FROM users;", []);
+        parent::tearDown();
     }
 }

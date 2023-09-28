@@ -40,10 +40,11 @@ class FavoriteController implements ControllerInterface
     {
         $handling = new ApiHandling($this->ApiMapper);
         $mapper = new FavMapper($this->userRepository, $handling);
-        $listOfFavDTOs = $mapper->mapDTO();
+        $listOfFavDTOs = $mapper->mapFavIDtoDTO();
 
         $action = $_GET['action'] ?? '';
         $id = $_GET['id'] ?? '';
+        $userID = $this->userRepository->getUserID($_SESSION['mail']);
 
         $actionMap = [
             'add' => 'addFavoriteTeam',
@@ -53,10 +54,9 @@ class FavoriteController implements ControllerInterface
         ];
 
         if (!empty($_SESSION['mail']) && array_key_exists($action, $actionMap)) {
-            $this->{$actionMap[$action]}($action, $id);
+            $this->{$actionMap[$action]}($action, $id, $userID);
             $this->actionMap = 'valid';
-        } else
-        {
+        } else {
             $this->actionMap = 'invalid-action';
         }
 
@@ -72,32 +72,24 @@ class FavoriteController implements ControllerInterface
         return $this->templateEngine;
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function addFavoriteTeam(string $action, mixed $id): void
+    public function addFavoriteTeam(string $action, mixed $id, int $userID): void
     {
-            $this->userEntityManager->addFav($id);
-            $this->redirect->to('');
+        $this->userEntityManager->addFav($id, $userID);
+        $this->redirect->to('');
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function removeFavoriteTeam(string $action, mixed $id): void
+    public function removeFavoriteTeam(string $action, mixed $id, int $userID): void
     {
-            $this->userEntityManager->remFav($id);
-            $this->redirect->to('');
+        $this->userEntityManager->remFav($id, $userID);
+        $this->redirect->to('');
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function moveFavoriteTeamDown(string $action, string $id): void
+
+    public function moveFavoriteTeamDown(string $action, string $id, int $userID): void
     {
-            $newFavIDs = $this->favManipulation->moveNumberDown($this->userRepository->getFavIDs($_SESSION['mail']), $id);
-            $this->userEntityManager->manageFav($newFavIDs);
-            $this->redirect->to('index.php?page=favorites&action=manage');
+        $newFavIDs = $this->favManipulation->moveNumberDown($this->userRepository->getFavIDs($_SESSION['mail']), $id);
+        $this->userEntityManager->updateFav($newFavIDs, $userID);
+        $this->redirect->to('index.php?page=favorites&action=manage');
     }
 
     /**
@@ -105,8 +97,8 @@ class FavoriteController implements ControllerInterface
      */
     public function moveFavoriteTeamUp(string $action, string $id): void
     {
-            $newFavIDs = $this->favManipulation->moveNumberUp($this->userRepository->getFavIDs($_SESSION['mail']), $id);
-            $this->userEntityManager->manageFav($newFavIDs);
-            $this->redirect->to('index.php?page=favorites&action=manage');
+        $newFavIDs = $this->favManipulation->moveNumberUp($this->userRepository->getFavIDs($this->userRepository->getUserID($_SESSION['mail'])), $id);
+        $this->userEntityManager->manageFav($newFavIDs);
+        $this->redirect->to('index.php?page=favorites&action=manage');
     }
 }

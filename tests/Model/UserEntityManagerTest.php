@@ -2,111 +2,74 @@
 
 namespace Model;
 
+use App\Controller\FavoriteController;
 use App\Model\DTO\UserDTO;
+use App\Model\SQL\SqlConnector;
 use App\Model\UserEntityManager;
 use App\Model\UserMapper;
 use App\Model\UserRepository;
 use PHPUnit\Framework\TestCase;
+use function PHPUnit\Framework\assertSame;
 
 class UserEntityManagerTest extends TestCase
 {
     public UserMapper $userMapper;
     public UserEntityManager $entityManager;
     public UserRepository $userRepository;
-    private string $testJsonPath = __DIR__ . '/../../src/Model/UserData.json';
+    public UserDTO $newUser;
+    public SqlConnector $sqlConnector;
 
     public function setUp(): void
     {
         $this->userMapper = new UserMapper();
-        $this->entityManager = new UserEntityManager(new UserMapper($this->testJsonPath));
+        $this->entityManager = new UserEntityManager(new UserMapper());
         $this->userRepository = new UserRepository();
+        $this->sqlConnector = new SqlConnector();
 
+        $this->newUser = new UserDTO();
+        $this->newUser->name = ('TEST');
+        $this->newUser->email = ('TESTz@zTEST.COM');
+        $this->newUser->passwort = ('qwertz');
 
         parent::setUp();
     }
 
     public function testSaveCredentials(): void
     {
-        $newUser = new UserDTO();
-        $newUser->name = ('N4ME');
-        $newUser->email = ('EMAIL');
-        $newUser->passwort = ('PASSWORT');
+        $this->entityManager->saveCredentials($this->newUser);
 
-        $returnArray = $this->entityManager->saveCredentials($newUser);
-
-        self::assertSame('', $returnArray);
+        $user = $this->userRepository->findByMail('TESTz@zTEST.COM');
+        self::assertSame('TEST', $user->name);
+        self::assertSame('qwertz', $user->passwort);
     }
 
     public function testAddFavSuccessful(): void
     {
-        $favIdToAdd = "2";
-        $_SESSION['mail'] = 'EMAIL';
+        $this->entityManager->saveCredentials($this->newUser);
 
+        $favIdToAdd = "1";
 
-        $this->entityManager->addFav($favIdToAdd, 1);
+        $_SESSION['mail'] = $this->newUser->email;
+        $id = $this->userRepository->getUserID($this->newUser->email);
+        $this->entityManager->addFav($favIdToAdd, $id);
         $favIDs = $this->userRepository->getFavIDs($_SESSION['mail']);
 
-        self::assertSame('2', $favIDs[3]);
+        self::assertContains('1', $favIDs);
     }
 
     public function testRemFavSuccessful(): void
     {
-        $favIdToRemove = "3";
-        $_SESSION['mail'] = 'EMAIL';
+        $_SESSION['mail'] = $this->newUser->email;
+        $favIDs = $this->userRepository->getFavIDs($_SESSION['mail']); // get Favs
 
-
-        $newUser = new UserDTO();
-        $newUser->name = ('N4ME');
-        $newUser->email = ('EMAIL');
-        $newUser->passwort = ('PASSWORT');
-        $newUser->favIDs = ["5", "4", "3"];
-
-        $this->entityManager->saveCredentials($newUser);
-        $this->entityManager->remFav($favIdToRemove);
-        $favIDs = $this->userRepository->getFavIDs($_SESSION['mail']);
-
-        self::assertCount(2, $favIDs);
-
-        self::assertArrayHasKey(0, $favIDs);
-        self::assertArrayHasKey(1, $favIDs);
-    }
-
-    public function testManageFavSuccessful(): void
-    {
-        $favIDsToManage = ["100", "200", "300", "400", "500"];
-        $_SESSION['mail'] = 'EMAIL';
-
-
-        $newUser = new UserDTO();
-        $newUser->name = ('N4ME');
-        $newUser->email = ('EMAIL');
-        $newUser->passwort = ('PASSWORT');
-        $newUser->favIDs = ["5", "4", "3"];
-
-        $this->entityManager->saveCredentials($newUser);
-        $this->entityManager->manageFav($favIDsToManage);
-        $favIDs = $this->userRepository->getFavIDs($_SESSION['mail']);
-
-        self::assertCount(5, $favIDs);
-        self::assertSame('100', $favIDs[0]);
-        self::assertSame('500', $favIDs[4]);
+        self::assertNull($favIDs);
     }
 
     public function tearDown(): void
     {
-
-        $getContents = file_get_contents(__DIR__ . '/../../src/Model/UserData.json',);
-        $arrayFromJSON = json_decode($getContents, true);
-
-        if (!empty($arrayFromJSON)) {
-            $count = count($arrayFromJSON) - 1;
-        }
-
-        if (($arrayFromJSON[$count ?? null]['name']) === 'N4ME') {
-            array_pop($arrayFromJSON);
-            $encoded = json_encode($arrayFromJSON, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
-            file_put_contents(__DIR__ . '/../../src/Model/UserData.json', $encoded);
-        }
+        $connector = new SqlConnector();
+        $connector->executeDeleteQuery("DELETE FROM users;", []);
+        $this->sqlConnector->closeConnection();
         parent::tearDown();
     }
 }

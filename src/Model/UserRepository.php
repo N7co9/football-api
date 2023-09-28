@@ -4,7 +4,6 @@ namespace App\Model;
 
 use App\Model\DTO\UserDTO;
 use App\Model\SQL\SqlConnector;
-use JsonException;
 
 
 class UserRepository
@@ -31,9 +30,9 @@ class UserRepository
         return false;
     }
 
-    public function getFavIDs(string $mail): ?array
+    public function getFavIDs(int $userId): ?array
     {
-        $array = $this->sqlConnector->executeSelectQuery("SELECT user_favorites.favorite_id FROM user_favorites INNER JOIN users ON users.id = user_favorites.user_id WHERE users.email = :mail", ['mail' => $mail]);
+        $array = $this->sqlConnector->executeSelectQuery("SELECT user_favorites.favorite_id FROM user_favorites WHERE user_favorites.user_id = :userId", ['userId' => $userId]);
         foreach ($array as $item)
         {
             $arrayOfFavIDs [] = $item['favorite_id'];
@@ -41,10 +40,21 @@ class UserRepository
         return $arrayOfFavIDs ?? null;
     }
 
+    public function getUserID(string $mail) : ?int
+    {
+        $rawIdArray =  $this->sqlConnector->executeSelectQuery("SELECT users.id FROM users where users.email = :mail", [":mail" => $mail]);
+
+        foreach ($rawIdArray as $entry){
+            $formattedId = $entry['id'];
+        }
+
+        return $formattedId ?? null;
+    }
+
     public function checkIfFavIdAlreadyAdded($mail, $favId): bool
     {
         if (!empty($_SESSION['mail'])) {
-            if ((in_array($favId, $this->getFavIDs($mail) ?? [], true))) {
+            if ((in_array($favId, $this->getFavIDs($this->getUserID($mail)) ?? [], true))) {
                 return true;
             }
         }
