@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Core\Api\ApiHandling;
 use App\Core\Api\ApiMapper;
 use App\Core\Container;
-use App\Core\FavoritesLogic\FavManipulation;
+use App\Core\FavoritesLogic\FavManipulator;
 use App\Core\FavoritesLogic\FavMapper;
 use App\Core\Redirect;
 use App\Core\View;
@@ -20,7 +20,7 @@ class FavoriteController implements ControllerInterface
     public View $templateEngine;
     public ApiMapper $ApiMapper;
     public UserRepository $userRepository;
-    public FavManipulation $favManipulation;
+    public FavManipulator $favManipulation;
     public string $actionMap;
 
     public function __construct(Container $container)
@@ -30,7 +30,7 @@ class FavoriteController implements ControllerInterface
         $this->templateEngine = $container->get(View::class);
         $this->ApiMapper = $container->get(ApiMapper::class);
         $this->userRepository = $container->get(UserRepository::class);
-        $this->favManipulation = $container->get(FavManipulation::class);
+        $this->favManipulation = $container->get(FavManipulator::class);
     }
 
     /**
@@ -84,21 +84,17 @@ class FavoriteController implements ControllerInterface
         $this->redirect->to('');
     }
 
-
     public function moveFavoriteTeamDown(string $action, string $id, int $userID): void
     {
-        $newFavIDs = $this->favManipulation->moveNumberDown($this->userRepository->getFavIDs($_SESSION['mail']), $id);
-        $this->userEntityManager->updateFav($newFavIDs, $userID);
+        $manipulatedArray = $this->favManipulation->moveTeamOnePlaceDown($userID, $id);
+        $this->userEntityManager->saveManipulatedOrder($manipulatedArray, $userID);
         $this->redirect->to('index.php?page=favorites&action=manage');
     }
 
-    /**
-     * @throws JsonException
-     */
-    public function moveFavoriteTeamUp(string $action, string $id): void
+    public function moveFavoriteTeamUp(string $action, string $id, int $userID): void
     {
-        $newFavIDs = $this->favManipulation->moveNumberUp($this->userRepository->getFavIDs($this->userRepository->getUserID($_SESSION['mail'])), $id);
-        $this->userEntityManager->manageFav($newFavIDs);
+        $manipulatedArray = $this->favManipulation->moveTeamOnePlaceUp($userID, $id);
+        $this->userEntityManager->saveManipulatedOrder($manipulatedArray, $userID);
         $this->redirect->to('index.php?page=favorites&action=manage');
     }
 }

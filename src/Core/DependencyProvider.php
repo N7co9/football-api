@@ -5,6 +5,7 @@ namespace App\Core;
 use App\Core\Api\ApiHandling;
 use App\Core\Api\ApiMapper;
 use App\Core\FavoritesLogic\FavManipulation;
+use App\Core\FavoritesLogic\FavManipulator;
 use App\Core\FavoritesLogic\FavMapper;
 use App\Model\DTO\FavoriteDTO;
 use App\Model\DTO\UserDTO;
@@ -22,7 +23,7 @@ class DependencyProvider
         $container->set(Redirect::class, new Redirect(new RedirectSpy()));
         $container->set(Validator::class, new Validator());
         $container->set(FavoriteDTO::class, new FavoriteDTO());
-        $container->set(FavManipulation::class, new FavManipulation());
+        $container->set(FavManipulator::class, new FavManipulator());
         $container->set(FavMapper::class, new FavMapper(new UserRepository(), new ApiHandling(new ApiMapper())));
 
         $container->set(UserRepository::class, new UserRepository());

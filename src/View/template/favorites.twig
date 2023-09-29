@@ -14,11 +14,13 @@
             {% if loop.first and favorites|length != 1 %}
                 <img src="{{ favorite.crest }}" height="22" width="22"> <a
                     href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
-                >> <a href="/index.php?page=favorites&action=down&id={{ favorite.id }}">down?</a> <br>
+                >> <a href="/index.php?page=favorites&action=down&id={{ favorite.id }}">down?</a>
+                / <a href="/index.php?page=favorites&action=remove&id={{favorite.id}}">remove?</a> <br>
             {% elseif loop.last and favorites|length != 1 %}
                 <img src="{{ favorite.crest }}" height="22" width="22"> <a
                     href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
                 >> <a href="/index.php?page=favorites&action=up&id={{ favorite.id }}">up?</a>
+                / <a href="/index.php?page=favorites&action=remove&id={{favorite.id}}">remove?</a> <br>
             {% elseif favorites|length == 1 %}
                 <img src="{{ favorite.crest }}" height="22" width="22"> <a
                     href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
@@ -27,7 +29,7 @@
                     href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
                 >> <a href="/index.php?page=favorites&action=up&id={{ favorite.id }}">up?</a>
                 / <a href="/index.php?page=favorites&action=down&id={{ favorite.id }}">down?</a>
-                <br>
+                / <a href="/index.php?page=favorites&action=remove&id={{favorite.id}}">remove?</a> <br>
             {% endif %}
         {% endfor %}
     </p>

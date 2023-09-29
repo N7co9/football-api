@@ -32,7 +32,7 @@ class UserRepository
 
     public function getFavIDs(int $userId): ?array
     {
-        $array = $this->sqlConnector->executeSelectQuery("SELECT user_favorites.favorite_id FROM user_favorites WHERE user_favorites.user_id = :userId", ['userId' => $userId]);
+        $array = $this->sqlConnector->executeSelectQuery("SELECT user_favorites.favorite_id FROM user_favorites WHERE user_favorites.user_id = :userId ORDER BY order_number", ['userId' => $userId]);
         foreach ($array as $item)
         {
             $arrayOfFavIDs [] = $item['favorite_id'];
@@ -59,5 +59,20 @@ class UserRepository
             }
         }
         return false;
+    }
+    public function getFavoritesWithOrderNumbers($userId) : ?array
+    {
+        $sqlConnector = new SqlConnector();
+
+        $query = "SELECT favorite_id, order_number FROM user_favorites WHERE user_id = :user_id";
+        $params = [
+            ":user_id" => $userId
+            ] ;
+
+        $result = $sqlConnector->executeSelectQuery($query, $params);
+
+        $sqlConnector->closeConnection();
+
+        return $result;
     }
 }

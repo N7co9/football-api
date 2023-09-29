@@ -78,9 +78,11 @@ class UserRepositoryTest extends TestCase
 
     public function testGetFavIDs(): void
     {
-        $result = $this->userRepository->getFavIDs('TESTz@zTEST.COM');
+        $_SESSION['mail'] = 'TESTz@zTEST.COM';
+        $id = $this->userRepository->getUserID($_SESSION['mail']);
+        $result = $this->userRepository->getFavIDs($id);
 
-        self::assertContains('5', $result);
+        self::assertSame('5', $result[0]);
     }
 
     public function testCheckIfFavIdAlreadyAdded(): void
@@ -90,10 +92,28 @@ class UserRepositoryTest extends TestCase
         assertSame(true, $bool);
     }
 
+    public function testCheckIfFavIdAlreadyAddedFalse(): void
+    {
+        $bool = $this->userRepository->checkIfFavIdAlreadyAdded('TESTz@zTEST.COM', '6');
+
+        assertSame(false, $bool);
+    }
+
+    public function testGetFavoritesWithOrderNumbers() : void
+    {
+        $_SESSION['mail'] = 'TESTz@zTEST.COM';
+        $id = $this->userRepository->getUserID($_SESSION['mail']);
+
+        $array = $this->userRepository->getFavoritesWithOrderNumbers($id);
+        self::assertSame('5', $array[0]['favorite_id']);
+        self::assertSame(1, $array[0]['order_number']);
+
+    }
     public function tearDown(): void
     {
         $connector = new SqlConnector();
         $connector->executeDeleteQuery("DELETE FROM users;", []);
+        $connector->closeConnection();
         parent::tearDown();
     }
 }
