@@ -112,6 +112,7 @@ class UserRepositoryTest extends TestCase
     public function tearDown(): void
     {
         $connector = new SqlConnector();
+        $connector->executeDeleteQuery("DELETE FROM user_favorites;", []);
         $connector->executeDeleteQuery("DELETE FROM users;", []);
         $connector->closeConnection();
         parent::tearDown();

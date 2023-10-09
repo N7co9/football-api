@@ -24,6 +24,7 @@
             {% elseif favorites|length == 1 %}
                 <img src="{{ favorite.crest }}" height="22" width="22"> <a
                     href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>
+                / <a href="/index.php?page=favorites&action=remove&id={{favorite.id}}">remove?</a> <br>
             {% else %}
                 <img src="{{ favorite.crest }}" height="22" width="22"> <a
                     href="/index.php?page=team&id={{ favorite.id }}">{{ favorite.name }}</a>

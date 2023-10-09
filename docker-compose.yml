@@ -8,4 +8,4 @@ services:
       MYSQL_ROOT_PASSWORD: nexus123
       MYSQL_DATABASE: football
     ports:
-      - '3336:3306',
+      - '3336:3306'

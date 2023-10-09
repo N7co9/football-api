@@ -3,6 +3,7 @@
 namespace Model;
 
 use App\Model\DTO\UserDTO;
+use App\Model\SQL\SqlConnector;
 use App\Model\UserMapper;
 use PHPUnit\Framework\TestCase;
 use function PHPUnit\Framework\fileExists;
@@ -55,6 +56,11 @@ class UserMapperTest extends TestCase
 
     public function tearDown(): void
     {
+        $connector = new SqlConnector();
+        $connector->executeDeleteQuery("DELETE FROM user_favorites;", []);
+        $connector->executeDeleteQuery("DELETE FROM users;", []);
+        $connector->closeConnection();
+        parent::tearDown();
         parent::tearDown();
     }
 }

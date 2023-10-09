@@ -22,9 +22,6 @@ class ClubController implements ControllerInterface
         $this->userRepository = $container->get(UserRepository::class);
     }
 
-    /**
-     * @throws JsonException
-     */
     public function dataConstruct(): object
     {
         $teamId = $_GET['id'];

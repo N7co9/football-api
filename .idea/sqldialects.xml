@@ -5,7 +5,11 @@
     <file url="file://$PROJECT_DIR$/src/Model/UserEntityManager.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/Model/UserMapper.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/src/Model/UserRepository.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/tests/Api/FavoriteControllerTest.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/tests/Controller/RegistrationControllerTest.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/tests/Controller/SessionControllerTest.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/tests/Core/FavoritesLogic/FavMapperTest.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/tests/Model/SQL/SqlConnectorTest.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/tests/Model/UserEntityManagerTest.php" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/tests/Model/UserRepositoryTest.php" dialect="GenericSQL" />
   </component>

@@ -61,6 +61,7 @@ class FavMapperTest extends TestCase
     public function tearDown(): void
     {
         $connector = new SqlConnector();
+        $connector->executeDeleteQuery("DELETE FROM user_favorites;", []);
         $connector->executeDeleteQuery("DELETE FROM users;", []);
         parent::tearDown();
     }

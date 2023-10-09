@@ -6,19 +6,27 @@ use App\Controller\RegistrationController;
 use App\Core\Container;
 use App\Core\DependencyProvider;
 use App\Model\DTO\UserDTO;
+use App\Model\SQL\SqlConnector;
+use App\Model\UserEntityManager;
+use App\Model\UserMapper;
 use PHPUnit\Framework\TestCase;
 
 class RegistrationControllerTest extends TestCase
 {
+    public SqlConnector $sqlConnector;
+    public UserEntityManager $entityManager;
+
     protected function setUp(): void
     {
+        $this->sqlConnector = new SqlConnector();
+
         $containerBuilder = new Container();
         $dependencyProvider = new DependencyProvider();
         $dependencyProvider->provide($containerBuilder);
 
         $this->container = $containerBuilder;
         $this->construct = new RegistrationController($this->container);
-
+        $this->entityManager = new UserEntityManager(new UserMapper());
 
         parent::setUp();
     }
@@ -149,18 +157,27 @@ class RegistrationControllerTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
         $_POST['name'] = 'TEST';
-        $_POST['mail'] = 'validation@validation.com';
+        $_POST['mail'] = 'TEST@TEST.com';
         $_POST['passwort'] = 'Xyz12345*';
+
+        $putEmailInSystem = new UserDTO();
+        $putEmailInSystem->email = 'TEST@TEST.com';
+        $this->entityManager->saveCredentials($putEmailInSystem);
+
 
         $output = $this->construct->dataConstruct();
 
         self::assertSame('registration.twig', $output->getTpl());
         self::assertSame('TEST', $output->getParameters()['vName']);
-        self::assertSame('validation@validation.com', $output->getParameters()['vMail']);
+        self::assertSame('TEST@TEST.com', $output->getParameters()['vMail']);
         self::assertSame('Oops, your email is already registered!', $output->getParameters()['errors'][0]->message);
     }
     protected function tearDown(): void
     {
-
+        $connector = new SqlConnector();
+        $connector->executeDeleteQuery("DELETE FROM user_favorites;", []);
+        $connector->executeDeleteQuery("DELETE FROM users;", []);
+        $this->sqlConnector->closeConnection();
+        parent::tearDown();
     }
 }
